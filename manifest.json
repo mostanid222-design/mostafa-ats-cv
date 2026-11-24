@@ -1,0 +1,16 @@
+{
+  "name": "مُعِدّ السيرة الذاتية ATS ورسالة التغطية — مصطفى الشافعي",
+  "short_name": "ATS CV Builder",
+  "description": "تطبيق ثنائي اللغة لكتابة السيرة الذاتية ATS ورسالة التغطية وطلبات التطوع والمبادرات — يعمل بدون إنترنت",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "dir": "rtl",
+  "lang": "ar",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
