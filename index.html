@@ -4593,7 +4593,7 @@
         applications: [],
         darkMode: false,
         fontScale: 100,
-        jobsSheetCsvUrl: '',
+        jobsSheetCsvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTH0PkOzyPw-O97wwewOehOGZGotVn4KlMEwnCXGYZalP0CcbiYoJNKrZS5MKx9yPPD9_VM4wpYNxUP/pub?gid=0&single=true&output=csv',
         volunteer: {
           orgAr: '', orgEn: '',
           fieldAr: 'الاستجابة الطارئة والتوزيع الميداني', fieldEn: 'Emergency Response & Field Distribution',
@@ -6906,7 +6906,7 @@
           const sheetInput = document.getElementById('inpJobsSheetUrl');
           if (sheetInput && state.jobsSheetCsvUrl && !sheetInput.value) sheetInput.value = state.jobsSheetCsvUrl;
 
-          const url = (state.jobsSheetCsvUrl || '').trim();
+          const url = (state.jobsSheetCsvUrl || DEFAULT_STATE.jobsSheetCsvUrl || '').trim();
           if (!url) {
             liveJobsCache = DEMO_LIVE_JOBS.slice();
             if (noteEl) noteEl.textContent = 'تعرض حالياً نماذج تجريبية — اربط جدول Google Sheets من الإعدادات بالأسفل لتظهر وظائفك اليومية تلقائياً للجميع.';
