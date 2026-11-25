@@ -2152,14 +2152,14 @@
       <div class="stat-card">
         <div>
           <div class="stat-label">ملفات PDF المصدّرة</div>
-          <div class="stat-val teal" id="statPdfsVal">0</div>
+          <div class="stat-val teal" id="statPdfsVal">500</div>
         </div>
         <span class="stat-badge">PDF</span>
       </div>
       <div class="stat-card">
         <div>
           <div class="stat-label">النماذج والرسائل المُعدّة</div>
-          <div class="stat-val" id="statDocsVal">0</div>
+          <div class="stat-val" id="statDocsVal">500</div>
         </div>
         <span class="stat-badge">تغطية / تطوع / مبادرة</span>
       </div>
@@ -8141,10 +8141,12 @@
         const dEl = document.getElementById('statDocsVal');
         const bEl = document.getElementById('statModeBadge');
         if (vEl) vEl.textContent = (2000 + (Number(localStats.visits) || 0)).toLocaleString('en-US');
-        if (pEl) pEl.textContent = Number(localStats.pdfs || 0).toLocaleString('en-US');
-        if (dEl) dEl.textContent = Number(localStats.docs || 0).toLocaleString('en-US');
+        // The 500 figures are clearly disclosed promotional opening baselines;
+        // actual successful PDF exports and document generations are added on top.
+        if (pEl) pEl.textContent = (500 + (Number(localStats.pdfs) || 0)).toLocaleString('en-US');
+        if (dEl) dEl.textContent = (500 + (Number(localStats.docs) || 0)).toLocaleString('en-US');
         if (bEl) {
-          bEl.textContent = isOnlineSynced ? 'عداد مباشر للجميع' : 'عداد محلي (أوفلاين)';
+          bEl.textContent = '500 رصيد افتتاحي + الاستخدامات الفعلية';
         }
       }
 
