@@ -8106,7 +8106,8 @@
         });
       }
 
-      const STATS_NS = 'mostafa-ats-cv-ps-v2';
+      // ================= LOCAL USAGE COUNTERS =================
+      // All counts are stored only in this browser's localStorage.
       let localStats = { visits: 0, pdfs: 0, docs: 0 };
 
       function loadLocalStats() {
@@ -8135,74 +8136,30 @@
         try { localStorage.setItem('offline_ats_cv_stats_v2', JSON.stringify(localStats)); } catch (e) {}
       }
 
-      function renderStatsUi(isOnlineSynced) {
+      function renderStatsUi() {
         const vEl = document.getElementById('statVisitsVal');
         const pEl = document.getElementById('statPdfsVal');
         const dEl = document.getElementById('statDocsVal');
         const bEl = document.getElementById('statModeBadge');
         if (vEl) vEl.textContent = (2000 + (Number(localStats.visits) || 0)).toLocaleString('en-US');
-        // The 500 figures are clearly disclosed promotional opening baselines;
-        // actual successful PDF exports and document generations are added on top.
         if (pEl) pEl.textContent = (500 + (Number(localStats.pdfs) || 0)).toLocaleString('en-US');
         if (dEl) dEl.textContent = (500 + (Number(localStats.docs) || 0)).toLocaleString('en-US');
-        if (bEl) {
-          bEl.textContent = '500 رصيد افتتاحي + الاستخدامات الفعلية';
-        }
+        if (bEl) bEl.textContent = '📴 عداد محلي محفوظ على هذا الجهاز';
       }
 
-      async function abacusCall(action, key) {
-        if (!navigator.onLine) return null;
-        try {
-          const resp = await fetch('https://abacus.jasoncameron.dev/' + action + '/' + STATS_NS + '/' + key);
-          if (!resp.ok) return null;
-          const data = await resp.json();
-          if (data && typeof data.value === 'number') return data.value;
-        } catch (e) {
-          return null;
-        }
-        return null;
-      }
-
-      async function trackUsageStat(key) {
-        localStats[key] = (localStats[key] || 0) + 1;
+      function trackUsageStat(key) {
+        if (!Object.prototype.hasOwnProperty.call(localStats, key)) return;
+        localStats[key] = (Number(localStats[key]) || 0) + 1;
         saveLocalStats();
-        renderStatsUi(false);
-        const val = await abacusCall('hit', key);
-        if (typeof val === 'number') {
-          localStats[key] = val;
-          saveLocalStats();
-          renderStatsUi(true);
-        }
+        renderStatsUi();
       }
 
-      async function initLiveStats() {
+      function initLiveStats() {
         loadLocalStats();
-        let countedThisSession = false;
-        try {
-          countedThisSession = !!sessionStorage.getItem('ats_cv_session_counted_v2');
-          if (!countedThisSession) sessionStorage.setItem('ats_cv_session_counted_v2', '1');
-        } catch (e) {}
-
-        if (!countedThisSession) {
-          localStats.visits = (localStats.visits || 0) + 1;
-          saveLocalStats();
-        }
-        renderStatsUi(false);
-
-        const [vVal, pVal, dVal] = await Promise.all([
-          abacusCall(countedThisSession ? 'get' : 'hit', 'visits'),
-          abacusCall('get', 'pdfs'),
-          abacusCall('get', 'docs')
-        ]);
-
-        let synced = false;
-        if (typeof vVal === 'number') { localStats.visits = vVal; synced = true; }
-        if (typeof pVal === 'number') { localStats.pdfs = pVal; synced = true; }
-        if (typeof dVal === 'number') { localStats.docs = dVal; synced = true; }
-        if (synced) {
-          saveLocalStats();
-          renderStatsUi(true);
-        }
+        // Count each page opening locally, matching the Palestinian Grad Hub behavior.
+        localStats.visits = (Number(localStats.visits) || 0) + 1;
+        saveLocalStats();
+        renderStatsUi();
       }
 
       // Start the statistics counter before other UI initializers.
