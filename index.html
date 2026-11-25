@@ -2145,21 +2145,21 @@
       <div class="stat-card">
         <div>
           <div class="stat-label">المستخدمون والزيارات</div>
-          <div class="stat-val accent" id="statVisitsVal">—</div>
+          <div class="stat-val accent" id="statVisitsVal">2,000</div>
         </div>
         <span class="stat-badge live" id="statModeBadge">مباشر</span>
       </div>
       <div class="stat-card">
         <div>
           <div class="stat-label">ملفات PDF المصدّرة</div>
-          <div class="stat-val teal" id="statPdfsVal">—</div>
+          <div class="stat-val teal" id="statPdfsVal">0</div>
         </div>
         <span class="stat-badge">PDF</span>
       </div>
       <div class="stat-card">
         <div>
           <div class="stat-label">النماذج والرسائل المُعدّة</div>
-          <div class="stat-val" id="statDocsVal">—</div>
+          <div class="stat-val" id="statDocsVal">0</div>
         </div>
         <span class="stat-badge">تغطية / تطوع / مبادرة</span>
       </div>
@@ -8203,12 +8203,16 @@
         }
       }
 
+      // Start the statistics counter before other UI initializers.
+      // This keeps the visible local counter working even if an unrelated initializer fails.
+      initLiveStats().catch(function (err) { console.warn('Statistics initialization failed:', err); });
+
       /* ================= INIT ================= */
       initDropdowns();
       bindEvents();
       initGuideInteractions();
       initLiveAutoTranslate();
-      initLiveStats();
+
       (function initCourseRecControls() {
         const sel = document.getElementById('selCourseTrackMode');
         if (sel) sel.addEventListener('change', renderCourseRecommendations);
