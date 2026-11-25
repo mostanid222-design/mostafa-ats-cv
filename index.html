@@ -8164,7 +8164,19 @@
 
       // Start the statistics counter before other UI initializers.
       // This keeps the visible local counter working even if an unrelated initializer fails.
-      initLiveStats().catch(function (err) { console.warn('Statistics initialization failed:', err); });
+      try {
+        initLiveStats();
+      } catch (err) {
+        console.warn('Local statistics initialization failed:', err);
+        renderStatsUi();
+      }
+      // Keep the local counters in sync across tabs on this same browser/device.
+      window.addEventListener('storage', function (event) {
+        if (event.key === 'offline_ats_cv_stats_v2') {
+          loadLocalStats();
+          renderStatsUi();
+        }
+      });
 
       /* ================= INIT ================= */
       initDropdowns();
