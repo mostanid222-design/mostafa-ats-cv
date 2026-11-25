@@ -8402,6 +8402,30 @@
     })();
   </script>
 
+  <!-- Robust mobile CV section-tab interaction fallback -->
+  <script>
+    (function(){
+      function bindCvSectionTabs(){
+        var nav=document.getElementById('cvSectionNav');
+        if(!nav || nav.dataset.tapFixBound==='1') return;
+        nav.dataset.tapFixBound='1';
+        nav.addEventListener('click',function(event){
+          var btn=event.target.closest('.sec-btn[data-sec]');
+          if(!btn || !nav.contains(btn)) return;
+          var sec=btn.getAttribute('data-sec');
+          nav.querySelectorAll('.sec-btn').forEach(function(item){
+            item.classList.toggle('active',item===btn);
+          });
+          document.querySelectorAll('#cvEditorView .section-pane').forEach(function(pane){
+            pane.classList.toggle('active',pane.id==='sec-'+sec);
+          });
+        });
+      }
+      if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',bindCvSectionTabs);
+      else bindCvSectionTabs();
+    })();
+  </script>
+
   <!-- Welcome / creator card (live page) -->
   <style>
     #mostafa-welcome-overlay{position:fixed;inset:0;z-index:2147483000;background:rgba(8,20,30,.82);backdrop-filter:blur(7px);display:none;align-items:center;justify-content:center;padding:16px;pointer-events:none} #mostafa-welcome-card{pointer-events:auto}
