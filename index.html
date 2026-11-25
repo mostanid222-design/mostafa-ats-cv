@@ -8091,25 +8091,33 @@
         });
       }
 
-      const STATS_NS = 'mostafa-ats-cv-ps';
-      let localStats = { visits: 1, pdfs: 0, docs: 0 };
+      const STATS_NS = 'mostafa-ats-cv-ps-v2';
+      let localStats = { visits: 0, pdfs: 0, docs: 0 };
 
       function loadLocalStats() {
         try {
-          const raw = localStorage.getItem('offline_ats_cv_stats_v1');
+          const raw = localStorage.getItem('offline_ats_cv_stats_v2');
           if (raw) {
             const p = JSON.parse(raw);
             localStats = {
-              visits: Number(p.visits) || 1,
+              visits: Number(p.visits) || 0,
               pdfs: Number(p.pdfs) || 0,
               docs: Number(p.docs) || 0
             };
+          } else {
+            const oldRaw = localStorage.getItem('offline_ats_cv_stats_v1');
+            if (oldRaw) {
+              const old = JSON.parse(oldRaw);
+              localStats.pdfs = Number(old.pdfs) || 0;
+              localStats.docs = Number(old.docs) || 0;
+            }
+            localStorage.setItem('offline_ats_cv_stats_v2', JSON.stringify(localStats));
           }
         } catch (e) {}
       }
 
       function saveLocalStats() {
-        try { localStorage.setItem('offline_ats_cv_stats_v1', JSON.stringify(localStats)); } catch (e) {}
+        try { localStorage.setItem('offline_ats_cv_stats_v2', JSON.stringify(localStats)); } catch (e) {}
       }
 
       function renderStatsUi(isOnlineSynced) {
@@ -8117,7 +8125,7 @@
         const pEl = document.getElementById('statPdfsVal');
         const dEl = document.getElementById('statDocsVal');
         const bEl = document.getElementById('statModeBadge');
-        if (vEl) vEl.textContent = Number(localStats.visits || 0).toLocaleString('en-US');
+        if (vEl) vEl.textContent = (2000 + (Number(localStats.visits) || 0)).toLocaleString('en-US');
         if (pEl) pEl.textContent = Number(localStats.pdfs || 0).toLocaleString('en-US');
         if (dEl) dEl.textContent = Number(localStats.docs || 0).toLocaleString('en-US');
         if (bEl) {
@@ -8154,8 +8162,8 @@
         loadLocalStats();
         let countedThisSession = false;
         try {
-          countedThisSession = !!sessionStorage.getItem('ats_cv_session_counted');
-          if (!countedThisSession) sessionStorage.setItem('ats_cv_session_counted', '1');
+          countedThisSession = !!sessionStorage.getItem('ats_cv_session_counted_v2');
+          if (!countedThisSession) sessionStorage.setItem('ats_cv_session_counted_v2', '1');
         } catch (e) {}
 
         if (!countedThisSession) {
