@@ -7321,9 +7321,7 @@
             '.cv-exp-date{font-size:10pt;color:#475569;}' +
             'ul{margin:4px 0 8px 0;} li{margin-bottom:3px;}' +
             '.cl-subject{font-weight:bold;background:#f8fafc;padding:6px 10px;margin:10px 0;}' +
-            '</style></head><body>' + sheet.innerHTML + '
-
-</body></html>';
+            '</style></head><body>' + sheet.innerHTML + '\n\n</body></html>';
 
           const blob = new Blob(['\ufeff', docHtml], { type: 'application/msword;charset=utf-8' });
           const url = URL.createObjectURL(blob);
