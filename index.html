@@ -8522,6 +8522,44 @@
 
   </script>
 
+  <!-- Main navigation click fallback: keeps the top mode tabs usable if the primary binder fails. -->
+  <script>
+    (function () {
+      if (window.__atsMainModeClickFallback) return;
+      window.__atsMainModeClickFallback = true;
+      document.addEventListener('click', function (event) {
+        var tab = event.target.closest('.mode-tab[data-mode]');
+        if (!tab) return;
+        var mode = tab.getAttribute('data-mode');
+        document.querySelectorAll('.mode-tab[data-mode]').forEach(function (item) {
+          item.classList.toggle('active', item === tab);
+        });
+        var editor = document.getElementById('editorPanel');
+        var preview = document.getElementById('previewPanel');
+        var views = {
+          cv: document.getElementById('cvEditorView'),
+          cover: document.getElementById('coverEditorView'),
+          community: document.getElementById('communityView'),
+          'career-hub': document.getElementById('careerHubView'),
+          guide: document.getElementById('guideView'),
+          'live-jobs': document.getElementById('liveJobsView')
+        };
+        if (mode === 'preview') {
+          if (editor) editor.classList.add('mobile-hide');
+          if (preview) {
+            preview.classList.remove('mobile-hide');
+            preview.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+          return;
+        }
+        if (editor) editor.classList.remove('mobile-hide');
+        Object.keys(views).forEach(function (key) {
+          if (views[key]) views[key].style.display = key === mode ? 'block' : 'none';
+        });
+      }, true);
+    })();
+  </script>
+
   <!-- Robust mobile CV section-tab interaction fallback -->
 
 
