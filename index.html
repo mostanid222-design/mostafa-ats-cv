@@ -7248,33 +7248,91 @@
             });
           });
 
-          // Parse experience entries simply (lines with years like 2019-2026)
+          // Flexible multi-line work experience parser.
           const parsedExps = [];
+          const expLines = buckets.experience || [];
+          const datePattern = /(?:\b(?:19|20)\d{2}\b|present|current|now|حتى الآن|حاليا|حالياً|الآن|يناير|فبراير|مارس|أبريل|ابريل|مايو|يونيو|يوليو|أغسطس|اغسطس|سبتمبر|أكتوبر|اكتوبر|نوفمبر|ديسمبر|jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:tember)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)/i;
+          const dateRangePattern = /(?:[\w\u0600-\u06FF.]+\s*)?(?:19|20)\d{2}\s*(?:[–—-]|إلى|الى|to)\s*(?:(?:[\w\u0600-\u06FF.]+\s*)?(?:19|20)\d{2}|present|current|now|حتى الآن|الآن)/i;
+          const isBulletLine = line => /^[•●▪◦*-]\s*/.test(line);
+          const cleanBullet = line => line.replace(/^[•●▪◦*-]\s*/, '').trim();
+          const isDateOnlyLine = line => datePattern.test(line) && line.length <= 90 &&
+            (dateRangePattern.test(line) || /^(?:من\s*)?(?:19|20)\d{2}|^(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|يناير|فبراير|مارس|أبريل|ابريل|مايو|يونيو|يوليو|أغسطس|اغسطس|سبتمبر|أكتوبر|اكتوبر|نوفمبر|ديسمبر)/i.test(line));
           let curExp = null;
-          buckets.experience.forEach(ln => {
-            const hasYear = /\b(19|20)\d{2}\b/.test(ln);
-            const isBullet = /^[•\-\*▪◦]/.test(ln);
-            if (hasYear && !isBullet && ln.length < 130) {
-              if (curExp) parsedExps.push(curExp);
-              const dateM = ln.match(/(?:(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|يناير|فبراير|مارس|أبريل|مايو|يونيو|يوليو|أغسطس|سبتمبر|أكتوبر|نوفمبر|ديسمبر)?\s*(?:19|20)\d{2}\s*[–\-—إلىto]+\s*(?:Present|Current|حتى الآن|الآن|(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|يناير|فبراير|مارس|أبريل|مايو|يونيو|يوليو|أغسطس|سبتمبر|أكتوبر|نوفمبر|ديسمبر)?\s*(?:19|20)\d{2}))/i);
-              const dateStr = dateM ? dateM[0].trim() : '';
-              const titleClean = ln.replace(dateStr, '').replace(/[|•\-–—]+$/, '').trim() || ln;
-              curExp = {
-                roleAr: isMostlyEn ? titleClean : titleClean,
-                roleEn: isMostlyEn ? titleClean : offlineTranslateArToEn(titleClean),
-                orgAr: '', orgEn: '',
-                dateAr: dateStr, dateEn: isMostlyEn ? dateStr : offlineTranslateArToEn(dateStr),
-                bulletsAr: [], bulletsEn: []
-              };
-            } else if (curExp) {
-              const cleanB = ln.replace(/^[•\-\*▪◦]\s*/, '').trim();
-              if (cleanB.length > 6) {
-                if (isMostlyEn) { curExp.bulletsEn.push(cleanB); curExp.bulletsAr.push(cleanB); }
-                else { curExp.bulletsAr.push(cleanB); curExp.bulletsEn.push(offlineTranslateArToEn(cleanB)); }
+          const makeExp = (role, date) => ({
+            roleAr: role || '', roleEn: role || '', orgAr: '', orgEn: '',
+            dateAr: date || '', dateEn: date || '', bulletsAr: [], bulletsEn: []
+          });
+          const pushExp = () => {
+            if (curExp && (curExp.roleAr || curExp.orgAr || curExp.dateAr || curExp.bulletsAr.length)) {
+              if (!curExp.roleAr && curExp.orgAr) { curExp.roleAr = curExp.orgAr; curExp.roleEn = curExp.orgEn || curExp.orgAr; curExp.orgAr = ''; curExp.orgEn = ''; }
+              parsedExps.push(curExp);
+            }
+            curExp = null;
+          };
+          expLines.forEach(rawLine => {
+            const line = rawLine.trim();
+            if (!line) return;
+            if (isBulletLine(line)) {
+              const bullet = cleanBullet(line);
+              if (!curExp) curExp = makeExp('', '');
+              if (bullet.length > 2) {
+                if (isMostlyEn) { curExp.bulletsEn.push(bullet); curExp.bulletsAr.push(bullet); }
+                else { curExp.bulletsAr.push(bullet); curExp.bulletsEn.push(offlineTranslateArToEn(bullet)); }
               }
+              return;
+            }
+            const hasDate = datePattern.test(line);
+            const dateMatch = line.match(dateRangePattern) || (hasDate && line.length <= 90 ? [line] : null);
+            if (isDateOnlyLine(line)) {
+              if (!curExp) curExp = makeExp('', '');
+              curExp.dateAr = line;
+              curExp.dateEn = isMostlyEn ? line : offlineTranslateArToEn(line);
+              return;
+            }
+            if (hasDate && line.length < 180) {
+              const date = dateMatch ? dateMatch[0].trim() : '';
+              const title = date ? line.replace(date, '').replace(/[|•,:;–—-]+$/, '').trim() : line;
+              if (!curExp || curExp.bulletsAr.length || curExp.dateAr) pushExp();
+              curExp = makeExp(title, date);
+              if (title.includes('|')) {
+                const bits = title.split('|').map(x => x.trim()).filter(Boolean);
+                curExp.roleAr = bits[0] || '';
+                curExp.orgAr = bits.slice(1).join(' | ');
+              }
+              if (!isMostlyEn) {
+                curExp.roleEn = offlineTranslateArToEn(curExp.roleAr);
+                curExp.orgEn = curExp.orgAr ? offlineTranslateArToEn(curExp.orgAr) : '';
+                curExp.dateEn = curExp.dateAr ? offlineTranslateArToEn(curExp.dateAr) : '';
+              }
+              return;
+            }
+            if (!curExp) {
+              curExp = makeExp(line, '');
+            } else if (!curExp.orgAr && !curExp.dateAr && !curExp.bulletsAr.length) {
+              if (/[|｜]/.test(line)) {
+                const bits = line.split(/[|｜]/).map(x => x.trim()).filter(Boolean);
+                curExp.roleAr = bits[0] || curExp.roleAr;
+                curExp.orgAr = bits.slice(1).join(' | ');
+              } else {
+                curExp.orgAr = line;
+              }
+              if (isMostlyEn) { curExp.roleEn = curExp.roleAr; curExp.orgEn = curExp.orgAr; }
+              else { curExp.roleEn = offlineTranslateArToEn(curExp.roleAr); curExp.orgEn = offlineTranslateArToEn(curExp.orgAr); }
+            } else if (curExp.bulletsAr.length >= 1 && line.length < 150) {
+              pushExp();
+              curExp = makeExp(line, '');
+            } else {
+              if (isMostlyEn) { curExp.bulletsEn.push(line); curExp.bulletsAr.push(line); }
+              else { curExp.bulletsAr.push(line); curExp.bulletsEn.push(offlineTranslateArToEn(line)); }
             }
           });
-          if (curExp) parsedExps.push(curExp);
+          pushExp();
+          parsedExps.forEach(exp => {
+            if (!exp.roleAr && exp.roleEn) exp.roleAr = exp.roleEn;
+            if (!exp.roleEn && exp.roleAr) exp.roleEn = isMostlyEn ? exp.roleAr : offlineTranslateArToEn(exp.roleAr);
+            if (!exp.orgEn && exp.orgAr) exp.orgEn = isMostlyEn ? exp.orgAr : offlineTranslateArToEn(exp.orgAr);
+            if (!exp.dateEn && exp.dateAr) exp.dateEn = isMostlyEn ? exp.dateAr : offlineTranslateArToEn(exp.dateAr);
+          });
 
           const wordsCount = full.split(/\s+/).filter(Boolean).length;
           const hasNumbers = /\d+\s*(?:%|مستفيد|أسرة|beneficiar|project|مشروع|\+)/i.test(full);
