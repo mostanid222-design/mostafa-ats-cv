@@ -7298,9 +7298,11 @@
             linkedin: linkedinMatch ? linkedinMatch[0] : '',
             summaryText: buckets.summary.join(' ').trim(),
             skills: detectedSkills,
+            skillLines: buckets.skills,
             experiences: parsedExps,
             educationLines: buckets.education,
-            certLines: buckets.certs
+            certLines: buckets.certs,
+            languageLines: buckets.langs
           };
         }
 
@@ -7362,7 +7364,8 @@
               document.getElementById('txtRawCvPaste').value = extracted;
               lastParsedWordCv = parseRawCvText(extracted);
               renderWordComparisonReport(lastParsedWordCv);
-              showToast('تمت قراءة ملف Word ومقارنته بمعايير ATS بنجاح');
+              const imported = importParsedWordCv();
+              if (!imported) showToast('تمت قراءة الملف وتحليله. يمكنك مراجعة التقرير ثم استيراد البيانات عند الاستعداد.');
             } catch (err) {
               showToast(err && err.message ? err.message : 'تعذر قراءة الملف — تأكد أنه بصيغة .docx أو الصق النص');
             }
@@ -7380,55 +7383,91 @@
           });
         }
 
+        function importParsedWordCv() {
+          if (!lastParsedWordCv) return false;
+          const d = lastParsedWordCv;
+          const hasExisting = !!(
+            state.personal.nameAr || state.personal.nameEn || state.personal.email ||
+            state.personal.phone || state.summary.ar || state.summary.en ||
+            state.experiences.length || state.education.length || state.certifications.length ||
+            state.skills.length
+          );
+          if (hasExisting && !window.confirm('يوجد بيانات حالية في محرر السيرة. هل تريد استبدال الأقسام التي تم استخراج بيانات لها فقط؟ الأقسام غير الموجودة في الملف ستبقى كما هي.')) return false;
+
+          if (d.name) {
+            if (d.isMostlyEn) { state.personal.nameEn = d.name; if (!state.personal.nameAr) state.personal.nameAr = d.name; }
+            else { state.personal.nameAr = d.name; state.personal.nameEn = transliterateArabicName(d.name); }
+          }
+          if (d.title) {
+            if (d.isMostlyEn) state.personal.titleEn = d.title;
+            else { state.personal.titleAr = d.title; state.personal.titleEn = offlineTranslateArToEn(d.title); }
+          }
+          if (d.email) state.personal.email = d.email;
+          if (d.phone) state.personal.phone = d.phone;
+          if (d.linkedin) state.personal.linkedin = d.linkedin;
+          if (d.summaryText) {
+            if (d.isMostlyEn) state.summary.en = d.summaryText;
+            else { state.summary.ar = d.summaryText; state.summary.en = offlineTranslateArToEn(d.summaryText); }
+          }
+          if (d.skills.length || (d.skillLines && d.skillLines.length)) {
+            const importedSkills = d.skills.slice();
+            (d.skillLines || []).forEach(line => {
+              const clean = line.replace(new RegExp('^[•\\-*▪◦]\\s*'), '').trim();
+              if (clean && !importedSkills.some(x => (x.en || x.ar || '').toLowerCase() === clean.toLowerCase())) {
+                importedSkills.push({ type: 'tech', ar: d.isMostlyEn ? offlineTranslateArToEn(clean) : clean, en: d.isMostlyEn ? clean : offlineTranslateArToEn(clean) });
+              }
+            });
+            state.skills = importedSkills;
+          }
+          if (d.experiences.length) state.experiences = d.experiences.slice();
+          if (d.educationLines.length) {
+            state.education = d.educationLines.map(ln => ({
+              degreeAr: 'مؤهل علمي',
+              degreeEn: 'Qualification',
+              majorAr: d.isMostlyEn ? offlineTranslateArToEn(ln) : ln,
+              majorEn: d.isMostlyEn ? ln : offlineTranslateArToEn(ln),
+              year: (ln.match(new RegExp('\\b(19|20)\\d{2}\\b')) || [''])[0]
+            }));
+          }
+          if (d.certLines.length) {
+            state.certifications = d.certLines.map(ln => ({
+              ar: d.isMostlyEn ? offlineTranslateArToEn(ln) : ln,
+              en: d.isMostlyEn ? ln : offlineTranslateArToEn(ln),
+              year: (ln.match(new RegExp('\\b(19|20)\\d{2}\\b')) || [''])[0]
+            }));
+          }
+          if (d.languageLines && d.languageLines.length) {
+            state.languages = d.languageLines.map(line => {
+              const parts = line.split(new RegExp('\\s*(?:\\||—|–|:|-)\\s*'));
+              const lang = (parts.shift() || line).trim();
+              const level = parts.join(' - ').trim();
+              return {
+                ar: d.isMostlyEn ? offlineTranslateArToEn(lang) : lang,
+                en: d.isMostlyEn ? lang : offlineTranslateArToEn(lang),
+                levelAr: level ? (d.isMostlyEn ? offlineTranslateArToEn(level) : level) : '',
+                levelEn: level ? (d.isMostlyEn ? level : offlineTranslateArToEn(level)) : ''
+              };
+            }).filter(x => x.ar || x.en);
+          }
+          if (d.isMostlyEn) {
+            state.docLang = 'en';
+            document.getElementById('btnDocAr').classList.remove('active');
+            document.getElementById('btnDocEn').classList.add('active');
+          }
+          syncAllInputsFromState();
+          renderAll();
+          saveState();
+          const cvTab = document.querySelector('.mode-tab[data-mode="cv"]');
+          if (cvTab) cvTab.click();
+          showToast('تم نقل البيانات التي أمكن استخراجها إلى محرر السيرة. راجع الحقول قبل التصدير.');
+          return true;
+        }
+
         const btnImportParsed = document.getElementById('btnImportParsedCv');
         if (btnImportParsed) {
           btnImportParsed.addEventListener('click', () => {
             if (!lastParsedWordCv) return showToast('قم بتحليل السيرة أولاً');
-            const d = lastParsedWordCv;
-            if (d.name) {
-              if (d.isMostlyEn) { state.personal.nameEn = d.name; if (!state.personal.nameAr) state.personal.nameAr = d.name; }
-              else { state.personal.nameAr = d.name; state.personal.nameEn = transliterateArabicName(d.name); }
-            }
-            if (d.title) {
-              if (d.isMostlyEn) { state.personal.titleEn = d.title; }
-              else { state.personal.titleAr = d.title; state.personal.titleEn = offlineTranslateArToEn(d.title); }
-            }
-            if (d.email) state.personal.email = d.email;
-            if (d.phone) state.personal.phone = d.phone;
-            if (d.linkedin) state.personal.linkedin = d.linkedin;
-            if (d.summaryText) {
-              if (d.isMostlyEn) state.summary.en = d.summaryText;
-              else { state.summary.ar = d.summaryText; state.summary.en = offlineTranslateArToEn(d.summaryText); }
-            }
-            if (d.skills.length) state.skills = d.skills.slice();
-            if (d.experiences.length) state.experiences = d.experiences.slice();
-            if (d.educationLines.length) {
-              state.education = d.educationLines.slice(0, 3).map(ln => ({
-                degreeAr: d.isMostlyEn ? 'مؤهل علمي' : 'بكالوريوس',
-                degreeEn: "Degree",
-                majorAr: ln,
-                majorEn: d.isMostlyEn ? ln : offlineTranslateArToEn(ln),
-                year: (ln.match(/\b(19|20)\d{2}\b/) || [''])[0]
-              }));
-            }
-            if (d.certLines.length) {
-              state.certifications = d.certLines.slice(0, 8).map(ln => ({
-                ar: ln,
-                en: d.isMostlyEn ? ln : offlineTranslateArToEn(ln),
-                year: (ln.match(/\b(19|20)\d{2}\b/) || [''])[0]
-              }));
-            }
-            if (d.isMostlyEn) {
-              state.docLang = 'en';
-              document.getElementById('btnDocAr').classList.remove('active');
-              document.getElementById('btnDocEn').classList.add('active');
-            }
-            syncAllInputsFromState();
-            renderAll();
-            saveState();
-            const cvTab = document.querySelector('.mode-tab[data-mode="cv"]');
-            if (cvTab) cvTab.click();
-            showToast('تم استيراد بيانات سيرتك الذاتية إلى المحرر — عدّلها وصدّرها PDF الآن');
+            importParsedWordCv();
           });
         }
 
