@@ -1765,6 +1765,174 @@
       .social-grid { grid-template-columns: 1fr; }
     }
 
+    /* Live Date, Clock, Day & Weather Ribbon */
+    .live-datetime-bar {
+      background: #111c33;
+      color: #e2e8f0;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.22);
+      padding: 6px 18px;
+      font-size: 12px;
+    }
+    .live-datetime-inner {
+      max-width: 1480px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px 16px;
+    }
+    .dt-group, .weather-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px 12px;
+    }
+    .dt-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-weight: 700;
+      color: #f8fafc;
+      white-space: nowrap;
+    }
+    .dt-pill.clock-pill {
+      background: rgba(16, 185, 129, 0.16);
+      border-color: rgba(52, 211, 153, 0.4);
+      color: #6ee7b7;
+      font-variant-numeric: tabular-nums;
+    }
+    .dt-pill.weather-pill {
+      background: rgba(56, 189, 248, 0.14);
+      border-color: rgba(125, 211, 252, 0.35);
+      color: #bae6fd;
+    }
+    .weather-city-sel {
+      background: rgba(15, 23, 42, 0.85) !important;
+      color: #f8fafc !important;
+      border: 1px solid rgba(148, 163, 184, 0.35) !important;
+      border-radius: 999px !important;
+      padding: 2px 9px !important;
+      font-size: 11.5px !important;
+      font-weight: 700;
+      width: auto !important;
+      cursor: pointer;
+    }
+    @media (max-width: 680px) {
+      .live-datetime-inner { justify-content: center; }
+    }
+
+    /* Formal A4 Experience Certificate Styling */
+    .exp-cert-wrap {
+      padding: 18px 20px;
+      border-radius: 4px;
+      min-height: 860px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .exp-cert-wrap.framed {
+      border: 3px double var(--cert-color, #1e3a8a);
+      padding: 24px 26px;
+    }
+    .cert-letterhead {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      border-bottom: 3px solid var(--cert-color, #1e3a8a);
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+    .cert-org-ar {
+      font-weight: 800;
+      font-size: 1.15em;
+      color: var(--cert-color, #1e3a8a);
+    }
+    .cert-org-en {
+      font-weight: 700;
+      font-size: 0.9em;
+      color: #334155;
+      direction: ltr;
+      text-align: left;
+    }
+    .cert-logo-box {
+      width: 78px;
+      height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .cert-logo-box img {
+      max-width: 76px;
+      max-height: 76px;
+      object-fit: contain;
+    }
+    .cert-ref-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.88em;
+      color: #475569;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+    .cert-main-title {
+      text-align: center;
+      font-size: 1.55em;
+      font-weight: 900;
+      color: var(--cert-color, #1e3a8a);
+      margin: 8px 0 6px;
+      text-decoration: underline;
+      text-underline-offset: 6px;
+    }
+    .cert-sub-title {
+      text-align: center;
+      font-size: 1.05em;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 20px;
+    }
+    .cert-body-p {
+      text-align: justify;
+      line-height: 1.9;
+      margin-bottom: 14px;
+      color: #111827;
+    }
+    .cert-sign-grid {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-top: 34px;
+      padding-top: 14px;
+      gap: 20px;
+    }
+    .cert-stamp-circle {
+      width: 96px;
+      height: 96px;
+      border: 2px dashed #94a3b8;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 0.78em;
+      color: #64748b;
+      font-weight: 700;
+    }
+    .cert-footer-line {
+      margin-top: 24px;
+      border-top: 1.5px solid var(--cert-color, #1e3a8a);
+      padding-top: 8px;
+      text-align: center;
+      font-size: 0.82em;
+      color: #475569;
+    }
+
     /* App Footer & Copyright */
     .app-footer {
       background: #0b1120;
@@ -1841,6 +2009,9 @@
         padding: 0 !important;
       }
       .creator-bar,
+      .live-datetime-bar,
+      .cv-design-controls,
+      #mostafa-welcome-overlay,
       .app-header,
       .mode-bar,
       .sample-notice-bar,
@@ -2085,6 +2256,30 @@
     </div>
   </div>
 
+  <!-- Live Date, Day, Clock & Weather Bar -->
+  <div class="live-datetime-bar" aria-label="التاريخ والوقت والطقس المباشر">
+    <div class="live-datetime-inner">
+      <div class="dt-group">
+        <span class="dt-pill" id="liveDayDateText">📅 جاري تحميل التاريخ...</span>
+        <span class="dt-pill" id="liveHijriText" style="display:none;"></span>
+        <span class="dt-pill clock-pill" id="liveClockText">🕒 --:--:--</span>
+      </div>
+      <div class="weather-group">
+        <select id="selWeatherCity" class="weather-city-sel" aria-label="اختر المدينة للطقس">
+          <option value="31.4189,34.3517">دير البلح / الوسطى</option>
+          <option value="31.5017,34.4668">مدينة غزة</option>
+          <option value="31.3462,34.3063">خانيونس</option>
+          <option value="31.2969,34.2436">رفح</option>
+          <option value="31.7683,35.2137">القدس</option>
+          <option value="31.9038,35.2034">رام الله</option>
+          <option value="32.2211,35.2544">نابلس</option>
+          <option value="31.5326,35.0998">الخليل</option>
+        </select>
+        <span class="dt-pill weather-pill" id="liveWeatherText">☀️ جاري تحديث الطقس...</span>
+      </div>
+    </div>
+  </div>
+
   <!-- Top App Bar -->
   <header class="app-header">
     <div class="header-inner">
@@ -2134,7 +2329,7 @@
       <div class="mode-tabs">
         <button type="button" class="mode-tab active" data-mode="cv">📄 السيرة الذاتية</button>
         <button type="button" class="mode-tab" data-mode="cover">✉️ رسالة التغطية</button>
-        <button type="button" class="mode-tab" data-mode="community">🤝 التطوع والمبادرات</button>
+        <button type="button" class="mode-tab" data-mode="community">🤝 التطوع والمبادرات والشهادات</button>
         <button type="button" class="mode-tab" data-mode="career-hub">🎯 أدوات التوظيف</button>
         <button type="button" class="mode-tab" data-mode="guide">📚 الدليل والمواقع والدورات</button>
         <button type="button" class="mode-tab" data-mode="live-jobs">🔥 وظائف اليوم</button>
@@ -2173,7 +2368,7 @@
       <div class="stat-card">
         <div>
           <div class="stat-label">المستخدمون والزيارات</div>
-          <div class="stat-val accent" id="statVisitsVal">2,000</div>
+          <div class="stat-val accent" id="statVisitsVal">3,555</div>
         </div>
         <span class="stat-badge live" id="statModeBadge">مباشر</span>
       </div>
@@ -3288,6 +3483,7 @@
         <nav class="section-nav" id="communitySectionNav">
           <button type="button" class="sec-btn active" data-csec="volunteer">نموذج تقديم طلب تطوع</button>
           <button type="button" class="sec-btn" data-csec="initiative">نموذج صياغة مبادرة مجتمعية / تدريب</button>
+          <button type="button" class="sec-btn" data-csec="exp-cert">📜 شهادة خبرة رسمية (A4)</button>
         </nav>
 
         <div class="editor-body">
@@ -3466,6 +3662,140 @@
             <div class="helper-row">
               <button type="button" class="btn btn-outline btn-sm" id="btnPreviewInit">معاينة المقترح</button>
               <button type="button" class="btn btn-outline btn-sm" id="btnCopyInit">نسخ نص المقترح</button>
+            </div>
+          </div>
+
+          <!-- Sub-pane 3: Palestinian Institutional Experience Certificate (A4, Logo, Fonts/Sizes/Colors, PDF & Word) -->
+          <div class="guide-pane" id="csec-exp-cert">
+            <div class="section-title">
+              <span>📜 نموذج شهادة خبرة رسمية للمؤسسات في فلسطين (A4 — Word &amp; PDF)</span>
+              <div class="helper-row">
+                <button type="button" class="btn btn-teal btn-sm" id="btnExportCertPdf">تصدير PDF</button>
+                <button type="button" class="btn btn-primary btn-sm" id="btnExportCertWord">تصدير Word (.doc)</button>
+              </div>
+            </div>
+            <p class="section-hint">اختر المؤسسة لتعبئة بياناتها وترويستها تلقائياً، أضف شعار المؤسسة، وتحكم في الخط والمقاس واللون ثم صدّرها بصيغة A4 (PDF أو Word).</p>
+
+            <div class="helper-box">
+              <div class="helper-box-title"><span>1. اختيار المؤسسة (تعبئة تلقائية للبيانات) + رفع شعار المؤسسة</span></div>
+              <div class="helper-row" style="margin-bottom:9px;">
+                <select id="selCertOrgPreset" style="flex:1 1 260px;"></select>
+                <button type="button" class="btn btn-outline btn-sm" id="btnUploadCertLogo">🖼️ إضافة شعار المؤسسة</button>
+                <input type="file" id="inputCertLogo" accept="image/*" style="display:none">
+                <button type="button" class="btn btn-danger-soft btn-sm" id="btnRemoveCertLogo">إزالة الشعار</button>
+              </div>
+              <div class="helper-row">
+                <select id="selCertFont" style="flex:1 1 150px;" title="نوع الخط">
+                  <option value="'Tahoma', 'Segoe UI', Arial, sans-serif">خط عصري رسمي (Tahoma)</option>
+                  <option value="'Traditional Arabic', 'Times New Roman', serif">خط عربي تقليدي رسمي</option>
+                  <option value="'Arial', 'Helvetica Neue', sans-serif">خط هندسي واضح (Arial)</option>
+                  <option value="'Calibri', 'Georgia', serif">خط إنجليزي رسمي (Calibri/Georgia)</option>
+                </select>
+                <select id="selCertFontSize" style="flex:1 1 115px; max-width:145px;" title="مقاس الخط">
+                  <option value="11pt">مقاس 11pt (مضغوط)</option>
+                  <option value="12.5pt" selected>مقاس 12.5pt (قياسي)</option>
+                  <option value="14pt">مقاس 14pt (كبير)</option>
+                </select>
+                <select id="selCertColor" style="flex:1 1 140px; max-width:170px;" title="لون الشهادة">
+                  <option value="#1e3a8a">أزرق كحلي رسمي</option>
+                  <option value="#065f46">أخضر مؤسسي</option>
+                  <option value="#7f1d1d">عنابي كلاسيكي</option>
+                  <option value="#92400e">ذهبي / برونزي فاخر</option>
+                  <option value="#111827">أسود رسمي (طباعة اقتصادية)</option>
+                </select>
+                <label style="font-size:12px; font-weight:700; display:inline-flex; align-items:center; gap:5px; cursor:pointer;">
+                  <input type="checkbox" id="chkCertFrame" checked style="width:auto;"> إطار رسمي
+                </label>
+              </div>
+            </div>
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="certOrgAr">اسم المؤسسة / الجمعية (عربي)</label>
+                <input type="text" id="certOrgAr" placeholder="مثال: اتحاد لجان العمل الزراعي">
+              </div>
+              <div class="form-group">
+                <label for="certOrgEn">Organization Name (English)</label>
+                <input type="text" id="certOrgEn" class="ltr-input" placeholder="e.g., Union of Agricultural Work Committees">
+              </div>
+
+              <div class="form-group">
+                <label for="certRefNo">الرقم المرجعي (Ref. No.)</label>
+                <input type="text" id="certRefNo" class="ltr-input" placeholder="UAWC/HR/2026/104">
+              </div>
+              <div class="form-group">
+                <label for="certIssueDate">تاريخ الإصدار</label>
+                <input type="text" id="certIssueDate" placeholder="27 نوفمبر 2026">
+              </div>
+
+              <div class="form-group">
+                <label for="certEmpNameAr">اسم الموظف/ة الكامل (عربي)</label>
+                <input type="text" id="certEmpNameAr" placeholder="مصطفى نضال مصطفى الشافعي">
+              </div>
+              <div class="form-group">
+                <label for="certEmpNameEn">Employee Full Name (English)</label>
+                <input type="text" id="certEmpNameEn" class="ltr-input" placeholder="Mostafa Nedal Mostafa Alshafie">
+              </div>
+
+              <div class="form-group">
+                <label for="certEmpId">رقم الهوية الفلسطينية</label>
+                <input type="text" id="certEmpId" class="ltr-input" placeholder="40XXXXXXX">
+              </div>
+              <div class="form-group">
+                <label for="certContractType">نظام العمل</label>
+                <select id="certContractType">
+                  <option value="دوام كامل|Full-Time">دوام كامل (Full-Time)</option>
+                  <option value="عقد مشروع|Project-Based Contract">عقد مشروع (Project Contract)</option>
+                  <option value="دوام جزئي|Part-Time">دوام جزئي (Part-Time)</option>
+                  <option value="عمل تطوعي ميداني|Field Volunteering">عمل تطوعي ميداني (Volunteering)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="certRoleAr">المسمى الوظيفي والمشروع (عربي)</label>
+                <input type="text" id="certRoleAr" placeholder="منسق مشاريع ومسؤول المتابعة والتقييم (MEAL)">
+              </div>
+              <div class="form-group">
+                <label for="certRoleEn">Job Title &amp; Project (English)</label>
+                <input type="text" id="certRoleEn" class="ltr-input" placeholder="Project Coordinator & MEAL Officer">
+              </div>
+
+              <div class="form-group">
+                <label for="certFromDate">من تاريخ (Start Date)</label>
+                <input type="text" id="certFromDate" placeholder="01/10/2025">
+              </div>
+              <div class="form-group">
+                <label for="certToDate">حتى تاريخ (End Date)</label>
+                <input type="text" id="certToDate" placeholder="31/08/2026">
+              </div>
+
+              <div class="form-group full">
+                <label for="certDutiesAr">أبرز المهام والمسؤوليات (اختياري — كل مهمة في سطر — عربي)</label>
+                <textarea id="certDutiesAr" rows="3" placeholder="• تنسيق الأنشطة الميدانية وتوزيع المساعدات وفق معايير المساءلة."></textarea>
+              </div>
+              <div class="form-group full">
+                <label for="certDutiesEn">Key Responsibilities (Optional — one per line — English)</label>
+                <textarea id="certDutiesEn" rows="3" class="ltr-input" placeholder="• Coordinated field activities and beneficiary distributions per accountability standards."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="certSignNameAr">اسم وصفة الموقّع (عربي)</label>
+                <input type="text" id="certSignNameAr" placeholder="المدير التنفيذي / مدير الموارد البشرية">
+              </div>
+              <div class="form-group">
+                <label for="certSignNameEn">Authorized Signatory (English)</label>
+                <input type="text" id="certSignNameEn" class="ltr-input" placeholder="Executive Director / HR Manager">
+              </div>
+
+              <div class="form-group full">
+                <label for="certFooterAddr">تذييل الترويسة (العنوان، الهاتف، البريد، ورقم التسجيل)</label>
+                <input type="text" id="certFooterAddr" placeholder="فلسطين — قطاع غزة | هاتف: ... | البريد الإلكتروني: ...">
+              </div>
+            </div>
+
+            <div class="helper-row">
+              <button type="button" class="btn btn-soft btn-sm" id="btnSyncCertFromCv">استيراد اسمي ومسمى وظيفتي من السيرة</button>
+              <button type="button" class="btn btn-outline btn-sm" id="btnPreviewCert">معاينة الشهادة A4</button>
             </div>
           </div>
 
@@ -4698,6 +5028,28 @@
         applications: [],
         darkMode: false,
         fontScale: 100,
+        expCert: {
+          orgAr: 'اتحاد لجان العمل الزراعي (UAWC)',
+          orgEn: 'Union of Agricultural Work Committees (UAWC)',
+          refNo: 'UAWC/HR/2026/104',
+          issueDate: '27 نوفمبر 2026',
+          empNameAr: '', empNameEn: '',
+          empId: '40XXXXXXX',
+          contractAr: 'دوام كامل', contractEn: 'Full-Time',
+          roleAr: 'منسق مشاريع ومسؤول المتابعة والتقييم (MEAL)',
+          roleEn: 'Project Coordinator & MEAL Officer',
+          fromDate: '01/10/2025', toDate: '31/08/2026',
+          dutiesAr: 'تنفيذ المسوحات الميدانية وجمع البيانات الرقمية عبر KoboToolbox بدقة عالية.\nإعداد تقارير الإنجاز الدورية ومطابقة قوائم المستفيدين وفق معايير الشفافية والمساءلة.',
+          dutiesEn: 'Conducted field assessments and digital data collection via KoboToolbox.\nPrepared periodic progress reports and verified beneficiary lists per accountability standards.',
+          signNameAr: 'إدارة الموارد البشرية / المدير التنفيذي',
+          signNameEn: 'Human Resources / Executive Director',
+          footerAddr: 'فلسطين — قطاع غزة / رام الله | منظمة أهلية فلسطينية مرخصة',
+          logoData: '',
+          font: "'Tahoma', 'Segoe UI', Arial, sans-serif",
+          fontSize: '12.5pt',
+          color: '#1e3a8a',
+          framed: true
+        },
         jobsSheetCsvUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTH0PkOzyPw-O97wwewOehOGZGotVn4KlMEwnCXGYZalP0CcbiYoJNKrZS5MKx9yPPD9_VM4wpYNxUP/pub?gid=0&single=true&output=csv',
         volunteer: {
           orgAr: '', orgEn: '',
@@ -4744,6 +5096,7 @@
         if (!Array.isArray(state.applications)) state.applications = [];
         state.volunteer = Object.assign(JSON.parse(JSON.stringify(DEFAULT_STATE.volunteer)), parsed.volunteer || {});
         state.initiative = Object.assign(JSON.parse(JSON.stringify(DEFAULT_STATE.initiative)), parsed.initiative || {});
+        state.expCert = Object.assign(JSON.parse(JSON.stringify(DEFAULT_STATE.expCert)), parsed.expCert || {});
       }
 
       function loadState() {
@@ -5591,6 +5944,9 @@
         } else if (state.previewType === 'initiative') {
           titleEl.textContent = isEn ? 'معاينة حية — مقترح مبادرة / تدريب (English)' : 'معاينة حية — مقترح مبادرة / تدريب (عربي)';
           sheet.innerHTML = buildInitiativeHtml(isEn);
+        } else if (state.previewType === 'exp-cert') {
+          titleEl.textContent = isEn ? 'معاينة حية — شهادة خبرة رسمية A4 (English)' : 'معاينة حية — شهادة خبرة رسمية A4 (عربي)';
+          sheet.innerHTML = buildExpCertHtml(isEn);
         } else {
           titleEl.textContent = isEn ? 'معاينة حية — السيرة الذاتية ATS (English)' : 'معاينة حية — السيرة الذاتية ATS (عربي)';
           sheet.innerHTML = buildCvHtml(isEn);
@@ -5833,6 +6189,66 @@
           (outs.length ? '<section class="cv-section"><h2 class="cv-sec-title">' + (isEn ? '5. Expected Outcomes & Impact Indicators' : '5. المخرجات والنتائج المتوقعة ومؤشرات النجاح') + '</h2><ul class="cv-bullets">' + outs.map(o => '<li>' + escapeHtml(o) + '</li>').join('') + '</ul></section>' : '');
       }
 
+      function buildExpCertHtml(isEn) {
+        const c = state.expCert || DEFAULT_STATE.expCert;
+        const empName = (isEn ? (c.empNameEn || state.personal.nameEn) : (c.empNameAr || state.personal.nameAr)) || (isEn ? 'Employee Full Name' : 'الاسم الكامل للموظف/ة');
+        const orgAr = c.orgAr || 'اسم المؤسسة';
+        const orgEn = c.orgEn || 'Organization Name';
+        const role = (isEn ? c.roleEn : c.roleAr) || (isEn ? 'Job Title' : 'المسمى الوظيفي');
+        const contract = isEn ? (c.contractEn || 'Full-Time') : (c.contractAr || 'دوام كامل');
+        const dutiesRaw = isEn ? (c.dutiesEn || '') : (c.dutiesAr || '');
+        const duties = dutiesRaw.split('\n').map(x => x.replace(/^[•\-\*]\s*/, '').trim()).filter(Boolean);
+        const signTitle = (isEn ? c.signNameEn : c.signNameAr) || (isEn ? 'Authorized Signatory' : 'المدير التنفيذي / الموارد البشرية');
+        const logoHtml = c.logoData
+          ? '<div class="cert-logo-box"><img src="' + c.logoData + '" alt="Logo"></div>'
+          : '<div class="cert-logo-box" style="border:1.5px dashed #cbd5e1; border-radius:8px; font-size:10px; color:#94a3b8; text-align:center;">شعار<br>المؤسسة</div>';
+        const styleAttr = 'style="--cert-color:' + escapeHtml(c.color || '#1e3a8a') + '; font-family:' + (c.font || 'Tahoma, Arial, sans-serif') + '; font-size:' + escapeHtml(c.fontSize || '12.5pt') + ';"';
+
+        const bodyHtml = isEn
+          ? '<div class="cert-main-title">EXPERIENCE CERTIFICATE</div>' +
+            '<div class="cert-sub-title">TO WHOM IT MAY CONCERN</div>' +
+            '<p class="cert-body-p">This is to certify that Mr./Ms. <strong>' + escapeHtml(empName) + '</strong>' +
+            (c.empId ? ', holder of Palestinian ID No. <strong dir="ltr">' + escapeHtml(c.empId) + '</strong>' : '') +
+            ', was employed with <strong>' + escapeHtml(orgEn) + '</strong> in the capacity of <strong>' + escapeHtml(role) + '</strong> on a <strong>' + escapeHtml(contract) + '</strong> basis from <strong dir="ltr">' + escapeHtml(c.fromDate) + '</strong> to <strong dir="ltr">' + escapeHtml(c.toDate) + '</strong>.</p>' +
+            (duties.length ? '<div style="font-weight:800; margin-bottom:6px; color:' + escapeHtml(c.color || '#1e3a8a') + ';">Key Duties &amp; Responsibilities:</div><ul class="cv-bullets" style="margin-bottom:14px;">' + duties.map(d => '<li>' + escapeHtml(d) + '</li>').join('') + '</ul>' : '') +
+            '<p class="cert-body-p">Throughout the tenure with our organization, he/she demonstrated high professional competence, dedication, integrity, and strong teamwork in fulfilling all assigned duties. We wish him/her continued success in all future endeavors.</p>' +
+            '<p class="cert-body-p">This certificate is issued upon his/her request without any financial or legal obligation on the organization.</p>'
+          : '<div class="cert-main-title">شهادة خبرة</div>' +
+            '<div class="cert-sub-title">إلى من يهمه الأمر</div>' +
+            '<p class="cert-body-p">تشهد <strong>' + escapeHtml(orgAr) + '</strong> بأن السيد/ة <strong>' + escapeHtml(empName) + '</strong>' +
+            (c.empId ? '، حامل/ة هوية رقم <strong dir="ltr">' + escapeHtml(c.empId) + '</strong>' : '') +
+            '، قد عمل/ت لدينا بوظيفة <strong>' + escapeHtml(role) + '</strong> بنظام <strong>' + escapeHtml(contract) + '</strong>، وذلك خلال الفترة الممتدة من تاريخ <strong dir="ltr">' + escapeHtml(c.fromDate) + '</strong> وحتى تاريخ <strong dir="ltr">' + escapeHtml(c.toDate) + '</strong>.</p>' +
+            (duties.length ? '<div style="font-weight:800; margin-bottom:6px; color:' + escapeHtml(c.color || '#1e3a8a') + ';">وقد شملت أبرز المهام والمسؤوليات الموكلة إليه/ها ما يلي:</div><ul class="cv-bullets" style="margin-bottom:14px;">' + duties.map(d => '<li>' + escapeHtml(d) + '</li>').join('') + '</ul>' : '') +
+            '<p class="cert-body-p">وقد أظهر/ت خلال فترة عمله/ها معنا كفاءة مهنية عالية، والتزاماً تاماً بواجباته/ها الوظيفية وأخلاقيات العمل المؤسسي، وكان/ت مثالاً للانضباط وحسن التعاون مع فريق العمل والمستفيدين، ونتمنى له/ها دوام التوفيق والنجاح في مسيرته/ها المهنية.</p>' +
+            '<p class="cert-body-p">وبناءً على طلبه/ها أُعطيت له/ها هذه الشهادة لتقديمها لمن يهمه الأمر دون أدنى مسؤولية مالية أو قانونية على المؤسسة تجاه الغير.</p>';
+
+        return '<div class="exp-cert-wrap ' + (c.framed ? 'framed' : '') + '" ' + styleAttr + '>' +
+          '<div>' +
+            '<div class="cert-letterhead">' +
+              '<div style="flex:1; text-align:right;"><div class="cert-org-ar">' + escapeHtml(orgAr) + '</div></div>' +
+              logoHtml +
+              '<div style="flex:1; text-align:left;"><div class="cert-org-en">' + escapeHtml(orgEn) + '</div></div>' +
+            '</div>' +
+            '<div class="cert-ref-row">' +
+              '<span>' + (isEn ? 'Ref. No.: ' : 'الرقم المرجعي: ') + '<span dir="ltr">' + escapeHtml(c.refNo) + '</span></span>' +
+              '<span>' + (isEn ? 'Date: ' : 'التاريخ: ') + escapeHtml(c.issueDate) + '</span>' +
+            '</div>' +
+            bodyHtml +
+          '</div>' +
+          '<div>' +
+            '<div class="cert-sign-grid">' +
+              '<div>' +
+                '<div style="font-weight:800; color:' + escapeHtml(c.color || '#1e3a8a') + ';">' + (isEn ? 'Authorized Signatory:' : 'اعتماد وتوقيع الإدارة:') + '</div>' +
+                '<div style="font-weight:700; margin-top:4px;">' + escapeHtml(signTitle) + '</div>' +
+                '<div style="margin-top:26px; border-top:1px solid #64748b; width:190px; padding-top:4px; font-size:0.85em; color:#64748b;">' + (isEn ? 'Signature' : 'التوقيع') + '</div>' +
+              '</div>' +
+              '<div class="cert-stamp-circle">' + (isEn ? 'Official<br>Stamp' : 'ختم المؤسسة<br>الرسمي') + '</div>' +
+            '</div>' +
+            (c.footerAddr ? '<div class="cert-footer-line">' + escapeHtml(c.footerAddr) + '</div>' : '') +
+          '</div>' +
+        '</div>';
+      }
+
       /* ================= INPUT SYNC & EVENT BINDINGS ================= */
 
       function syncAllInputsFromState() {
@@ -5921,7 +6337,7 @@
               else if (mode === 'cover') state.previewType = 'cover';
               else if (mode === 'community') {
                 const activeC = document.querySelector('#communitySectionNav .sec-btn.active');
-                state.previewType = (activeC && activeC.getAttribute('data-csec') === 'initiative') ? 'initiative' : 'volunteer';
+                const cAttr = activeC ? activeC.getAttribute('data-csec') : 'volunteer'; state.previewType = cAttr === 'initiative' ? 'initiative' : (cAttr === 'exp-cert' ? 'exp-cert' : 'volunteer');
               }
               renderPreview();
             }
@@ -7450,7 +7866,19 @@
             state.experiences.length || state.education.length || state.certifications.length ||
             state.skills.length
           );
-          if (hasExisting && !window.confirm('يوجد بيانات حالية في محرر السيرة. هل تريد استبدال الأقسام التي تم استخراج بيانات لها فقط؟ الأقسام غير الموجودة في الملف ستبقى كما هي.')) return false;
+          if (hasExisting && !window.__confirmWordImportPending) {
+        window.__confirmWordImportPending = true;
+        setTimeout(() => { window.__confirmWordImportPending = false; }, 12000);
+        showToast('⚠️ توجد بيانات حالية في المحرر — اضغط زر «استيراد البيانات» مرة أخرى خلال 12 ثانية لتأكيد الاستبدال (يمكنك حفظ نسخة JSON أولاً).');
+        const btnImp = document.getElementById('btnImportParsedCv');
+        if (btnImp) {
+          const origTxt = btnImp.textContent;
+          btnImp.textContent = '⚠️ اضغط مرة أخرى لتأكيد استبدال السيرة الحالية';
+          setTimeout(() => { if (btnImp.textContent.includes('لتأكيد')) btnImp.textContent = origTxt; }, 12000);
+        }
+        return false;
+      }
+      window.__confirmWordImportPending = false;
 
           if (d.name) {
             if (d.isMostlyEn) { state.personal.nameEn = d.name; if (!state.personal.nameAr) state.personal.nameAr = d.name; }
@@ -7560,7 +7988,7 @@
           const url = URL.createObjectURL(blob);
           const a = document.createElement('a');
           const baseName = (state.personal.nameEn || state.personal.nameAr || 'ATS_Document').replace(/[^\w\u0600-\u06FF]+/g, '_');
-          const typeTag = state.previewType === 'cover' ? 'Cover_Letter' : (state.previewType === 'volunteer' ? 'Volunteer_Form' : (state.previewType === 'initiative' ? 'Proposal' : 'ATS_CV'));
+          const typeTag = state.previewType === 'cover' ? 'Cover_Letter' : (state.previewType === 'volunteer' ? 'Volunteer_Form' : (state.previewType === 'initiative' ? 'Proposal' : (state.previewType === 'exp-cert' ? 'Experience_Certificate' : 'ATS_CV')));
           a.href = url;
           a.download = baseName + '_' + typeTag + '_' + (isEn ? 'EN' : 'AR') + '.doc';
           document.body.appendChild(a);
@@ -7591,6 +8019,233 @@
             if (window.location.hash === '#contact') contactModal.classList.add('open');
           });
         }
+
+        // ===== LIVE DAY, DATE, HIJRI, CLOCK & WEATHER WIDGET =====
+        function updateLiveClockAndDate() {
+          const now = new Date();
+          const dayDateEl = document.getElementById('liveDayDateText');
+          const hijriEl = document.getElementById('liveHijriText');
+          const clockEl = document.getElementById('liveClockText');
+          try {
+            const greg = new Intl.DateTimeFormat('ar-EG', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }).format(now);
+            if (dayDateEl) dayDateEl.textContent = '📅 ' + greg;
+          } catch (e) { if (dayDateEl) dayDateEl.textContent = '📅 ' + now.toDateString(); }
+          try {
+            const hijri = new Intl.DateTimeFormat('ar-SA-u-ca-islamic', { day: 'numeric', month: 'long', year: 'numeric' }).format(now);
+            if (hijriEl && hijri) { hijriEl.textContent = '🌙 ' + hijri; hijriEl.style.display = 'inline-flex'; }
+          } catch (e) {}
+          try {
+            const timeStr = new Intl.DateTimeFormat('ar-EG', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true }).format(now);
+            if (clockEl) clockEl.textContent = '🕒 ' + timeStr;
+          } catch (e) { if (clockEl) clockEl.textContent = '🕒 ' + now.toLocaleTimeString(); }
+        }
+
+        function describeWmoCodeAr(code) {
+          if (code === 0) return { icon: '☀️', text: 'صافي' };
+          if (code === 1 || code === 2) return { icon: '🌤️', text: 'غائم جزئياً' };
+          if (code === 3) return { icon: '☁️', text: 'غائم' };
+          if (code === 45 || code === 48) return { icon: '🌫️', text: 'ضباب' };
+          if (code >= 51 && code <= 67) return { icon: '🌧️', text: 'ممطر' };
+          if (code >= 71 && code <= 77) return { icon: '❄️', text: 'ثلوج' };
+          if (code >= 80 && code <= 82) return { icon: '🌦️', text: 'زخات مطر' };
+          if (code >= 95) return { icon: '⛈️', text: 'عاصفة رعدية' };
+          return { icon: '🌡️', text: 'معتدل' };
+        }
+
+        async function fetchLiveWeather() {
+          const sel = document.getElementById('selWeatherCity');
+          const outEl = document.getElementById('liveWeatherText');
+          if (!sel || !outEl) return;
+          const coords = sel.value || '31.4189,34.3517';
+          const cityLabel = sel.options[sel.selectedIndex] ? sel.options[sel.selectedIndex].text : 'دير البلح';
+          const cacheKey = 'offline_ats_weather_' + coords;
+          try {
+            const cached = localStorage.getItem(cacheKey);
+            if (cached) {
+              const c = JSON.parse(cached);
+              outEl.textContent = c.icon + ' ' + c.temp + '°C • ' + c.desc + ' (رياح ' + c.wind + ' كم/س)';
+            }
+          } catch (e) {}
+          if (!navigator.onLine) {
+            if (outEl.textContent.includes('جاري')) outEl.textContent = '🌤️ ' + cityLabel + ' (الطقس يتحدث عند الاتصال)';
+            return;
+          }
+          try {
+            const [lat, lon] = coords.split(',');
+            const url = 'https://api.open-meteo.com/v1/forecast?latitude=' + encodeURIComponent(lat) +
+              '&longitude=' + encodeURIComponent(lon) + '&current=temperature_2m,weather_code,wind_speed_10m&timezone=auto';
+            const resp = await fetch(url);
+            if (!resp.ok) throw new Error('HTTP ' + resp.status);
+            const data = await resp.json();
+            if (data && data.current) {
+              const temp = Math.round(data.current.temperature_2m);
+              const wind = Math.round(data.current.wind_speed_10m || 0);
+              const info = describeWmoCodeAr(Number(data.current.weather_code));
+              outEl.textContent = info.icon + ' ' + temp + '°C • ' + info.text + ' (رياح ' + wind + ' كم/س)';
+              try { localStorage.setItem(cacheKey, JSON.stringify({ icon: info.icon, temp, desc: info.text, wind })); } catch (e) {}
+            }
+          } catch (err) {
+            if (outEl.textContent.includes('جاري')) outEl.textContent = '🌤️ ' + cityLabel + ' (يتحدث عند توفر الإنترنت)';
+          }
+        }
+
+        const selWeatherCity = document.getElementById('selWeatherCity');
+        if (selWeatherCity) {
+          try { const savedCity = localStorage.getItem('offline_ats_weather_city'); if (savedCity) selWeatherCity.value = savedCity; } catch (e) {}
+          selWeatherCity.addEventListener('change', () => {
+            try { localStorage.setItem('offline_ats_weather_city', selWeatherCity.value); } catch (e) {}
+            fetchLiveWeather();
+          });
+        }
+        updateLiveClockAndDate();
+        setInterval(updateLiveClockAndDate, 1000);
+        fetchLiveWeather();
+        setInterval(fetchLiveWeather, 900000);
+
+        // ===== PALESTINIAN INSTITUTIONS EXPERIENCE CERTIFICATE ENGINE =====
+        const PAL_ORGS_DB = [
+          { label: '— اختر مؤسسة في فلسطين لتعبئة بياناتها تلقائياً —', orgAr: '', orgEn: '', refNo: '', signAr: '', signEn: '', footer: '', color: '#1e3a8a' },
+          { label: 'اتحاد لجان العمل الزراعي (UAWC)', orgAr: 'اتحاد لجان العمل الزراعي (UAWC)', orgEn: 'Union of Agricultural Work Committees (UAWC)', refNo: 'UAWC/HR/2026/104', signAr: 'مدير الموارد البشرية / المدير العام — اتحاد لجان العمل الزراعي', signEn: 'HR Manager / General Director — UAWC', footer: 'فلسطين — قطاع غزة / رام الله | مؤسسة تنموية زراعية فلسطينية مرخصة | info@uawc-pal.org', color: '#065f46' },
+          { label: 'جمعية الهلال الأحمر الفلسطيني (PRCS)', orgAr: 'جمعية الهلال الأحمر الفلسطيني (PRCS)', orgEn: 'Palestine Red Crescent Society (PRCS)', refNo: 'PRCS/GAZA/2026/215', signAr: 'إدارة الموارد البشرية — جمعية الهلال الأحمر الفلسطيني', signEn: 'Human Resources Department — PRCS', footer: 'فلسطين — قطاع غزة والضفة الغربية | جمعية إنسانية وطنية | www.palestinercs.org', color: '#7f1d1d' },
+          { label: 'وكالة غوث وتشغيل اللاجئين الفلسطينيين (الأونروا - UNRWA)', orgAr: 'وكالة الأمم المتحدة لإغاثة وتشغيل اللاجئين الفلسطينيين (الأونروا)', orgEn: 'United Nations Relief and Works Agency (UNRWA)', refNo: 'UNRWA/GFO/HR/2026/312', signAr: 'مكتب الموارد البشرية — عمليات قطاع غزة (UNRWA)', signEn: 'Human Resources Office — Gaza Field Office (UNRWA)', footer: 'Gaza Field Office, Palestine | www.unrwa.org', color: '#1e3a8a' },
+          { label: 'جمعية الإغاثة الطبية الفلسطينية (PMRS)', orgAr: 'جمعية الإغاثة الطبية الفلسطينية (PMRS)', orgEn: 'Palestinian Medical Relief Society (PMRS)', refNo: 'PMRS/HR/2026/088', signAr: 'المدير التنفيذي — جمعية الإغاثة الطبية الفلسطينية', signEn: 'Executive Director — PMRS', footer: 'فلسطين — قطاع غزة والضفة الغربية | مؤسسة صحية أهلية مرخصة | www.pmrs.ps', color: '#065f46' },
+          { label: 'جمعية الإغاثة الزراعية الفلسطينية (PARC)', orgAr: 'جمعية الإغاثة الزراعية الفلسطينية (PARC)', orgEn: 'Agricultural Development Association (PARC)', refNo: 'PARC/HR/2026/064', signAr: 'إدارة البرامج والموارد البشرية — الإغاثة الزراعية (PARC)', signEn: 'Programs & HR Department — PARC', footer: 'فلسطين — غزة / رام الله | www.pal-arc.org', color: '#065f46' },
+          { label: 'مركز الميزان لحقوق الإنسان (Al Mezan)', orgAr: 'مركز الميزان لحقوق الإنسان', orgEn: 'Al Mezan Center for Human Rights', refNo: 'MEZAN/ADM/2026/041', signAr: 'المدير العام — مركز الميزان لحقوق الإنسان', signEn: 'General Director — Al Mezan Center for Human Rights', footer: 'فلسطين — قطاع غزة | مؤسسة حقوقية فلسطينية مستقلة | www.mezan.org', color: '#1e3a8a' },
+          { label: 'مؤسسة تامر للتعليم المجتمعي (Tamer Institute)', orgAr: 'مؤسسة تامر للتعليم المجتمعي', orgEn: 'Tamer Institute for Community Education', refNo: 'TAMER/HR/2026/029', signAr: 'الإدارة التنفيذية — مؤسسة تامر للتعليم المجتمعي', signEn: 'Executive Management — Tamer Institute', footer: 'فلسطين — رام الله / قطاع غزة | www.tamerinst.org', color: '#92400e' },
+          { label: 'جمعية بيت لاهيا للتطوير (BLDA)', orgAr: 'جمعية بيت لاهيا للتطوير (BLDA)', orgEn: 'Beit Lahia Development Association (BLDA)', refNo: 'BLDA/ADM/2026/052', signAr: 'رئيس مجلس الإدارة / المدير التنفيذي — جمعية بيت لاهيا للتطوير', signEn: 'Chairman / Executive Director — BLDA', footer: 'فلسطين — قطاع غزة | جمعية أهلية تنموية مرخصة', color: '#1e3a8a' },
+          { label: 'جمعية بنت البلد التعاونية', orgAr: 'جمعية بنت البلد التعاونية', orgEn: 'Bint Al-Balad Cooperative Association', refNo: 'BBCA/ADM/2026/019', signAr: 'رئيس مجلس الإدارة — جمعية بنت البلد التعاونية', signEn: 'Chairperson — Bint Al-Balad Cooperative Association', footer: 'فلسطين — قطاع غزة | جمعية تعاونية مجتمعية مرخصة', color: '#92400e' },
+          { label: 'بلدية فلسطينية / هيئة محلية (نموذج عام)', orgAr: 'بلدية دير البلح — دولة فلسطين', orgEn: 'Deir Al-Balah Municipality — State of Palestine', refNo: 'MUN/HR/2026/110', signAr: 'رئيس البلدية / مدير دائرة الشؤون الإدارية والموظفين', signEn: 'Mayor / Director of Human Resources', footer: 'دولة فلسطين — قطاع غزة | هيئة محلية رسمية', color: '#111827' },
+          { label: 'شركة خاصة / مكتب هندسي أو طبي في فلسطين (نموذج عام)', orgAr: 'شركة / مركز [اسم الشركة] — فلسطين', orgEn: '[Company / Center Name] — Palestine', refNo: 'COMP/HR/2026/015', signAr: 'المدير العام / مدير الموارد البشرية', signEn: 'General Manager / HR Manager', footer: 'فلسطين | سجل تجاري رقم: [XXXX] | هاتف: [XXXX]', color: '#1e3a8a' }
+        ];
+
+        const selOrgP = document.getElementById('selCertOrgPreset');
+        if (selOrgP) {
+          selOrgP.innerHTML = PAL_ORGS_DB.map((o, idx) => '<option value="' + idx + '">' + escapeHtml(o.label) + '</option>').join('');
+          selOrgP.addEventListener('change', function () {
+            const org = PAL_ORGS_DB[Number(this.value)];
+            if (!org || !org.orgAr) return;
+            const c = state.expCert;
+            c.orgAr = org.orgAr; c.orgEn = org.orgEn;
+            c.refNo = org.refNo; c.signNameAr = org.signAr; c.signNameEn = org.signEn;
+            c.footerAddr = org.footer; c.color = org.color;
+            syncCertInputsFromState();
+            state.previewType = 'exp-cert';
+            renderPreview(); saveState();
+            showToast('تمت تعبئة بيانات المؤسسة وترويستها تلقائياً');
+          });
+        }
+
+        const certTextMap = [
+          ['certOrgAr', 'orgAr'], ['certOrgEn', 'orgEn'],
+          ['certRefNo', 'refNo'], ['certIssueDate', 'issueDate'],
+          ['certEmpNameAr', 'empNameAr'], ['certEmpNameEn', 'empNameEn'],
+          ['certEmpId', 'empId'], ['certRoleAr', 'roleAr'], ['certRoleEn', 'roleEn'],
+          ['certFromDate', 'fromDate'], ['certToDate', 'toDate'],
+          ['certDutiesAr', 'dutiesAr'], ['certDutiesEn', 'dutiesEn'],
+          ['certSignNameAr', 'signNameAr'], ['certSignNameEn', 'signNameEn'],
+          ['certFooterAddr', 'footerAddr']
+        ];
+
+        function syncCertInputsFromState() {
+          const c = state.expCert || DEFAULT_STATE.expCert;
+          certTextMap.forEach(([id, key]) => { const el = document.getElementById(id); if (el) el.value = c[key] || ''; });
+          const fEl = document.getElementById('selCertFont'); if (fEl && c.font) fEl.value = c.font;
+          const sEl = document.getElementById('selCertFontSize'); if (sEl && c.fontSize) sEl.value = c.fontSize;
+          const colEl = document.getElementById('selCertColor'); if (colEl && c.color) colEl.value = c.color;
+          const frEl = document.getElementById('chkCertFrame'); if (frEl) frEl.checked = c.framed !== false;
+        }
+
+        certTextMap.forEach(([id, key]) => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          el.addEventListener('input', function () {
+            state.expCert[key] = this.value;
+            if (state.previewType === 'exp-cert') renderPreview();
+            saveState();
+          });
+        });
+
+        const selContract = document.getElementById('certContractType');
+        if (selContract) {
+          selContract.addEventListener('change', function () {
+            const [ar, en] = this.value.split('|');
+            state.expCert.contractAr = ar; state.expCert.contractEn = en;
+            if (state.previewType === 'exp-cert') renderPreview();
+            saveState();
+          });
+        }
+        ['selCertFont', 'selCertFontSize', 'selCertColor'].forEach(id => {
+          const el = document.getElementById(id);
+          if (!el) return;
+          el.addEventListener('change', function () {
+            if (id === 'selCertFont') state.expCert.font = this.value;
+            if (id === 'selCertFontSize') state.expCert.fontSize = this.value;
+            if (id === 'selCertColor') state.expCert.color = this.value;
+            state.previewType = 'exp-cert';
+            renderPreview(); saveState();
+          });
+        });
+        const chkFrame = document.getElementById('chkCertFrame');
+        if (chkFrame) {
+          chkFrame.addEventListener('change', function () {
+            state.expCert.framed = this.checked;
+            state.previewType = 'exp-cert';
+            renderPreview(); saveState();
+          });
+        }
+        const btnUpLogo = document.getElementById('btnUploadCertLogo');
+        const inpLogo = document.getElementById('inputCertLogo');
+        if (btnUpLogo && inpLogo) {
+          btnUpLogo.addEventListener('click', () => inpLogo.click());
+          inpLogo.addEventListener('change', function () {
+            const file = this.files && this.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = ev => {
+              state.expCert.logoData = ev.target.result;
+              state.previewType = 'exp-cert';
+              renderPreview(); saveState();
+              showToast('تمت إضافة شعار المؤسسة إلى ترويسة الشهادة');
+            };
+            reader.readAsDataURL(file);
+          });
+        }
+        const btnRmLogo = document.getElementById('btnRemoveCertLogo');
+        if (btnRmLogo) {
+          btnRmLogo.addEventListener('click', () => {
+            state.expCert.logoData = '';
+            if (inpLogo) inpLogo.value = '';
+            if (state.previewType === 'exp-cert') renderPreview();
+            saveState(); showToast('تمت إزالة شعار المؤسسة');
+          });
+        }
+        const btnSyncCert = document.getElementById('btnSyncCertFromCv');
+        if (btnSyncCert) {
+          btnSyncCert.addEventListener('click', () => {
+            if (state.personal.nameAr) state.expCert.empNameAr = state.personal.nameAr;
+            if (state.personal.nameEn) state.expCert.empNameEn = state.personal.nameEn;
+            if (state.personal.titleAr) state.expCert.roleAr = state.personal.titleAr;
+            if (state.personal.titleEn) state.expCert.roleEn = state.personal.titleEn;
+            syncCertInputsFromState();
+            state.previewType = 'exp-cert';
+            renderPreview(); saveState();
+            showToast('تم استيراد اسمك ومسماك الوظيفي من السيرة الذاتية');
+          });
+        }
+        const btnPrevCert = document.getElementById('btnPreviewCert');
+        if (btnPrevCert) btnPrevCert.addEventListener('click', () => { state.previewType = 'exp-cert'; renderPreview(); });
+        const btnCertPdf = document.getElementById('btnExportCertPdf');
+        if (btnCertPdf) btnCertPdf.addEventListener('click', () => {
+          state.previewType = 'exp-cert'; renderPreview();
+          if (typeof trackUsageStat === 'function') trackUsageStat('pdfs');
+          setTimeout(() => window.print(), 180);
+        });
+        const btnCertWord = document.getElementById('btnExportCertWord');
+        if (btnCertWord) btnCertWord.addEventListener('click', () => {
+          state.previewType = 'exp-cert'; renderPreview();
+          if (typeof exportCurrentDocToWord === 'function') exportCurrentDocToWord();
+        });
+        syncCertInputsFromState();
 
         document.getElementById('btnCloseAtsModal').addEventListener('click', () => {
           document.getElementById('atsModal').classList.remove('open');
@@ -8338,76 +8993,99 @@
         });
       }
 
-      // ================= LOCAL USAGE COUNTERS =================
-      // All counts are stored only in this browser's localStorage.
+      // ================= LIVE + CLICK USAGE COUNTERS (STARTS AT 3,555) =================
+      const STATS_NS = 'mostafa-ats-cv-ps';
+      const VISITS_BASE = 3555;
+      const PDFS_BASE = 500;
+      const DOCS_BASE = 500;
       let localStats = { visits: 0, pdfs: 0, docs: 0 };
+      let lastRemoteHitTs = 0;
 
       function loadLocalStats() {
         try {
-          const raw = localStorage.getItem('offline_ats_cv_stats_v2');
+          const raw = localStorage.getItem('offline_ats_cv_stats_v3');
           if (raw) {
             const p = JSON.parse(raw);
             localStats = {
-              visits: Number(p.visits) || 0,
-              pdfs: Number(p.pdfs) || 0,
-              docs: Number(p.docs) || 0
+              visits: Math.max(0, Number(p.visits) || 0),
+              pdfs: Math.max(0, Number(p.pdfs) || 0),
+              docs: Math.max(0, Number(p.docs) || 0)
             };
-          } else {
-            const oldRaw = localStorage.getItem('offline_ats_cv_stats_v1');
-            if (oldRaw) {
-              const old = JSON.parse(oldRaw);
-              localStats.pdfs = Number(old.pdfs) || 0;
-              localStats.docs = Number(old.docs) || 0;
-            }
-            localStorage.setItem('offline_ats_cv_stats_v2', JSON.stringify(localStats));
           }
         } catch (e) {}
       }
 
       function saveLocalStats() {
-        try { localStorage.setItem('offline_ats_cv_stats_v2', JSON.stringify(localStats)); } catch (e) {}
+        try { localStorage.setItem('offline_ats_cv_stats_v3', JSON.stringify(localStats)); } catch (e) {}
       }
 
-      function renderStatsUi() {
+      function renderStatsUi(isOnlineSynced) {
         const vEl = document.getElementById('statVisitsVal');
         const pEl = document.getElementById('statPdfsVal');
         const dEl = document.getElementById('statDocsVal');
         const bEl = document.getElementById('statModeBadge');
-        if (vEl) vEl.textContent = (2000 + (Number(localStats.visits) || 0)).toLocaleString('en-US');
-        if (pEl) pEl.textContent = (500 + (Number(localStats.pdfs) || 0)).toLocaleString('en-US');
-        if (dEl) dEl.textContent = (500 + (Number(localStats.docs) || 0)).toLocaleString('en-US');
-        if (bEl) bEl.textContent = '📴 عداد محلي محفوظ على هذا الجهاز';
+        if (vEl) vEl.textContent = (VISITS_BASE + (Number(localStats.visits) || 0)).toLocaleString('en-US');
+        if (pEl) pEl.textContent = (PDFS_BASE + (Number(localStats.pdfs) || 0)).toLocaleString('en-US');
+        if (dEl) dEl.textContent = (DOCS_BASE + (Number(localStats.docs) || 0)).toLocaleString('en-US');
+        if (bEl) bEl.textContent = isOnlineSynced ? 'عداد مباشر للجميع' : 'عداد تفاعلي مباشر';
       }
 
-      function trackUsageStat(key) {
+      async function abacusCall(action, key) {
+        if (!navigator.onLine) return null;
+        try {
+          const resp = await fetch('https://abacus.jasoncameron.dev/' + action + '/' + STATS_NS + '/' + key);
+          if (!resp.ok) return null;
+          const data = await resp.json();
+          if (data && typeof data.value === 'number') return data.value;
+        } catch (e) { return null; }
+        return null;
+      }
+
+      async function trackUsageStat(key) {
         if (!Object.prototype.hasOwnProperty.call(localStats, key)) return;
         localStats[key] = (Number(localStats[key]) || 0) + 1;
         saveLocalStats();
-        renderStatsUi();
+        renderStatsUi(false);
+
+        const now = Date.now();
+        if (key === 'visits' && (now - lastRemoteHitTs) < 1200) return;
+        if (key === 'visits') lastRemoteHitTs = now;
+
+        const val = await abacusCall('hit', key);
+        if (typeof val === 'number') {
+          localStats[key] = Math.max(localStats[key], val);
+          saveLocalStats();
+          renderStatsUi(true);
+        }
       }
 
-      function initLiveStats() {
+      async function initLiveStats() {
         loadLocalStats();
-        // Count each page opening locally, matching the Palestinian Grad Hub behavior.
         localStats.visits = (Number(localStats.visits) || 0) + 1;
         saveLocalStats();
-        renderStatsUi();
+        renderStatsUi(false);
+
+        document.addEventListener('click', (e) => {
+          const target = e.target && e.target.closest ? e.target.closest('button, a, .mode-tab, .sec-btn, .creator-qr-btn') : null;
+          if (!target) return;
+          trackUsageStat('visits');
+        });
+
+        const [vVal, pVal, dVal] = await Promise.all([
+          abacusCall('hit', 'visits'),
+          abacusCall('get', 'pdfs'),
+          abacusCall('get', 'docs')
+        ]);
+        let synced = false;
+        if (typeof vVal === 'number') { localStats.visits = Math.max(localStats.visits, vVal); synced = true; }
+        if (typeof pVal === 'number') { localStats.pdfs = Math.max(localStats.pdfs, pVal); synced = true; }
+        if (typeof dVal === 'number') { localStats.docs = Math.max(localStats.docs, dVal); synced = true; }
+        if (synced) { saveLocalStats(); renderStatsUi(true); }
       }
 
-      // Start the statistics counter before other UI initializers.
-      // This keeps the visible local counter working even if an unrelated initializer fails.
-      try {
-        initLiveStats();
-      } catch (err) {
-        console.warn('Local statistics initialization failed:', err);
-        renderStatsUi();
-      }
-      // Keep the local counters in sync across tabs on this same browser/device.
+      try { initLiveStats(); } catch (err) { renderStatsUi(false); }
       window.addEventListener('storage', function (event) {
-        if (event.key === 'offline_ats_cv_stats_v2') {
-          loadLocalStats();
-          renderStatsUi();
-        }
+        if (event.key === 'offline_ats_cv_stats_v3') { loadLocalStats(); renderStatsUi(false); }
       });
 
       /* ================= INIT ================= */
@@ -8459,7 +9137,7 @@
             const csec = this.getAttribute('data-csec');
             document.querySelectorAll('#communitySectionNav .sec-btn').forEach(b => b.classList.toggle('active', b === this));
             document.querySelectorAll('#communityView .guide-pane').forEach(p => p.classList.toggle('active', p.id === 'csec-' + csec));
-            state.previewType = csec === 'initiative' ? 'initiative' : 'volunteer';
+            state.previewType = csec === 'initiative' ? 'initiative' : (csec === 'exp-cert' ? 'exp-cert' : 'volunteer');
             renderPreview();
           });
         });
@@ -8761,11 +9439,7 @@
     })();
   </script>
 
-  <!-- Robust mobile CV section-tab interaction fallback -->
 
-
-    })();
-  </script>
 
   <!-- Robust mobile CV section-tab interaction fallback -->
   <script>
