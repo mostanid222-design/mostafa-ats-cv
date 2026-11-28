@@ -3514,5 +3514,360 @@
   </script>
 
   <script>if('serviceWorker' in navigator && (location.protocol==='https:'||location.hostname==='localhost')){window.addEventListener('load',()=>{navigator.serviceWorker.register('./sw.js').catch(()=>{});});}</script>
+
+<!-- ==================== VIP CANVA-STYLE STORE & JAWWAL PAY ACTIVATION ==================== -->
+<style id="vipStoreStyles">
+  .vip-fab-btn {
+    position: fixed; bottom: 22px; left: 22px; z-index: 9990;
+    display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, #0f4c5c 0%, #0f766e 55%, #b45309 100%);
+    color: #fff; border: 2px solid #fbbf24; border-radius: 999px;
+    padding: 11px 18px; font-weight: 800; font-size: 13.5px; cursor: pointer;
+    box-shadow: 0 10px 28px rgba(15, 76, 92, 0.35);
+    font-family: inherit; transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .vip-fab-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(15, 76, 92, 0.45); }
+  .vip-fab-badge {
+    background: #fbbf24; color: #0f172a; font-size: 11px; font-weight: 900;
+    padding: 2px 7px; border-radius: 999px;
+  }
+  .vip-overlay {
+    position: fixed; inset: 0; z-index: 10050; background: rgba(15, 23, 42, 0.72);
+    backdrop-filter: blur(5px); display: none; align-items: center; justify-content: center;
+    padding: 14px; direction: rtl;
+  }
+  .vip-overlay.open { display: flex; }
+  .vip-modal {
+    background: #ffffff; color: #0f172a; width: 100%; max-width: 960px; max-height: 92vh;
+    border-radius: 22px; overflow: hidden; display: flex; flex-direction: column;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35); border: 1px solid #e2e8f0;
+  }
+  .vip-modal-head {
+    background: linear-gradient(135deg, #0c3b46 0%, #0f4c5c 60%, #0f766e 100%);
+    color: #fff; padding: 18px 22px; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .vip-modal-head h2 { margin: 0; font-size: 18px; font-weight: 900; }
+  .vip-modal-head p { margin: 4px 0 0; font-size: 12.5px; color: #cbd5e1; }
+  .vip-close-btn {
+    background: rgba(255,255,255,0.16); color: #fff; border: 1px solid rgba(255,255,255,0.28);
+    width: 36px; height: 36px; border-radius: 10px; font-size: 18px; font-weight: 900; cursor: pointer;
+  }
+  .vip-modal-body { padding: 18px 20px; overflow-y: auto; flex: 1; background: #f8fafc; }
+  .vip-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(255px, 1fr)); gap: 14px;
+  }
+  .vip-card {
+    background: #fff; border-radius: 16px; border: 1.5px solid #e2e8f0; overflow: hidden;
+    display: flex; flex-direction: column; transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+  }
+  .vip-card:hover { transform: translateY(-3px); border-color: #f59e0b; box-shadow: 0 12px 26px rgba(15, 23, 42, 0.1); }
+  .vip-card-preview {
+    height: 118px; padding: 14px; position: relative; display: flex; flex-direction: column; justify-content: space-between;
+    color: #fff; overflow: hidden;
+  }
+  .vip-price-tag {
+    position: absolute; top: 10px; left: 10px; background: #fbbf24; color: #0f172a;
+    font-weight: 900; font-size: 13px; padding: 4px 10px; border-radius: 999px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  }
+  .vip-status-tag {
+    display: inline-flex; align-items: center; gap: 4px; width: fit-content;
+    background: rgba(15, 23, 42, 0.45); border: 1px solid rgba(255,255,255,0.3);
+    font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 999px;
+  }
+  .vip-status-tag.unlocked { background: #10b981; border-color: #6ee7b7; color: #fff; }
+  .vip-card-body { padding: 13px 14px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .vip-card-title { font-size: 14.5px; font-weight: 900; color: #0f172a; margin: 0; }
+  .vip-card-desc { font-size: 12px; color: #475569; line-height: 1.55; margin: 0; flex: 1; }
+  .vip-action-btn {
+    width: 100%; border: none; border-radius: 10px; padding: 9px 12px; font-weight: 800;
+    font-size: 12.5px; cursor: pointer; font-family: inherit; transition: opacity 0.15s;
+  }
+  .vip-action-btn.buy { background: linear-gradient(135deg, #0f4c5c, #0f766e); color: #fff; }
+  .vip-action-btn.use { background: #10b981; color: #fff; }
+  .vip-action-btn:hover { opacity: 0.92; }
+  .vip-pay-box {
+    background: #fff; border: 1.5px solid #fbbf24; border-radius: 16px; padding: 16px; margin-top: 14px;
+  }
+  .vip-jpay-row {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;
+    background: #fefce8; border: 1px dashed #d97706; border-radius: 12px; padding: 12px 14px; margin: 10px 0;
+  }
+  .vip-jpay-num { font-size: 20px; font-weight: 900; color: #0f4c5c; letter-spacing: 1px; direction: ltr; }
+  .vip-code-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .vip-code-input {
+    flex: 1 1 180px; padding: 10px 12px; border-radius: 10px; border: 1.5px solid #cbd5e1;
+    font-size: 14px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; direction: ltr;
+  }
+  .vip-footer-bar {
+    padding: 10px 20px; background: #f1f5f9; border-top: 1px solid #e2e8f0;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; font-size: 11.5px; color: #64748b;
+  }
+  .vip-owner-link { background: none; border: none; color: #64748b; font-size: 11.5px; cursor: pointer; text-decoration: underline; }
+  /* Live VIP Theme Overrides when user activates a Canva VIP design */
+  body.vip-theme-gold .cv-sheet, body.vip-theme-gold #a4-preview, body.vip-theme-gold .doc-paper {
+    border: 3px double #b45309 !important; box-shadow: 0 12px 32px rgba(180, 83, 9, 0.16) !important;
+  }
+  body.vip-theme-royal .cv-sheet, body.vip-theme-royal #a4-preview, body.vip-theme-royal .doc-paper {
+    border-top: 10px solid #0f4c5c !important; border-bottom: 6px solid #f59e0b !important;
+  }
+  body.vip-theme-modern .cv-sheet, body.vip-theme-modern #a4-preview, body.vip-theme-modern .doc-paper {
+    border-right: 12px solid #0f766e !important;
+  }
+</style>
+
+<button type="button" class="vip-fab-btn" id="btnOpenVipStore" aria-label="نماذج وتصاميم VIP المدفوعة">
+  <span>👑 نماذج وتصاميم VIP</span>
+  <span class="vip-fab-badge">3–20 ₪</span>
+</button>
+
+<div class="vip-overlay" id="vipStoreOverlay" role="dialog" aria-modal="true" aria-label="متجر النماذج والتصاميم الاحترافية VIP">
+  <div class="vip-modal">
+    <div class="vip-modal-head">
+      <div>
+        <h2>👑 نماذج وتصاميم VIP الاحترافية — بوابة العمل المؤسسي</h2>
+        <p>تصاميم فاخرة بأسلوب Canva بأسعار رمزية (3 – 20 شيكل) • الدفع عبر Jawwal Pay وتفعيل فوري بكود خاص</p>
+      </div>
+      <button type="button" class="vip-close-btn" id="btnCloseVipStore">✕</button>
+    </div>
+
+    <div class="vip-modal-body">
+      <div class="vip-grid" id="vipCardsGrid"></div>
+
+      <div class="vip-pay-box" id="vipPayBox" style="display:none;">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+          <strong style="font-size:15px;color:#0f4c5c;" id="vipSelectedTitle">اختر نموذجاً للبدء</strong>
+          <span class="vip-fab-badge" style="font-size:13px;padding:4px 12px;" id="vipSelectedPrice">0 ₪</span>
+        </div>
+
+        <div class="vip-jpay-row">
+          <div>
+            <div style="font-size:12px;font-weight:800;color:#92400e;">1️⃣ حوّل المبلغ عبر جوال بي (Jawwal Pay) إلى الرقم:</div>
+            <div class="vip-jpay-num">0599179811</div>
+            <div style="font-size:11.5px;color:#475569;margin-top:2px;">رقم طلبك المرجعي: <strong id="vipOrderRef" style="color:#0f172a;direction:ltr;display:inline-block;">ORD-0000</strong></div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;">
+            <button type="button" class="vip-action-btn buy" style="width:auto;padding:8px 14px;" id="btnCopyJpayNum">📋 نسخ الرقم</button>
+            <a href="#" target="_blank" rel="noopener noreferrer" class="vip-action-btn use" style="width:auto;padding:8px 14px;text-decoration:none;display:inline-flex;align-items:center;" id="btnSendVipReceipt">💬 أرسل الإيصال على واتساب لاستلام الكود</a>
+          </div>
+        </div>
+
+        <div style="font-size:12px;font-weight:800;color:#334155;margin-top:6px;">2️⃣ بعد استلام كود التفعيل على جوالك، أدخله هنا لفتح النموذج فوراً مدى الحياة على جهازك:</div>
+        <div class="vip-code-row">
+          <input type="text" class="vip-code-input" id="inpVipActCode" placeholder="مثال: VIP-XXXX-XXXX" />
+          <button type="button" class="vip-action-btn buy" style="width:auto;padding:10px 20px;" id="btnVerifyVipCode">🔓 تفعيل النموذج</button>
+        </div>
+        <div id="vipVerifyMsg" style="font-size:12.5px;font-weight:700;margin-top:8px;"></div>
+      </div>
+
+      <!-- Private Owner Code Generator (PIN protected) -->
+      <div class="vip-pay-box" id="vipOwnerBox" style="display:none;border-color:#0f4c5c;background:#f0fdfa;">
+        <strong style="font-size:14px;color:#0f4c5c;">🔐 مولّد أكواد التفعيل (خاص بمالك المنصة فقط)</strong>
+        <div class="vip-code-row" style="margin-top:8px;">
+          <input type="password" class="vip-code-input" id="inpOwnerPin" placeholder="الرمز السري للمالك" style="max-width:160px;" />
+          <input type="text" class="vip-code-input" id="inpOwnerOrderRef" placeholder="رقم طلب العميل (مثال: ORD-4821)" />
+          <select id="selOwnerItem" style="padding:9px;border-radius:10px;border:1.5px solid #cbd5e1;font-weight:700;font-size:12.5px;"></select>
+          <button type="button" class="vip-action-btn buy" style="width:auto;padding:9px 16px;" id="btnGenOwnerCode">⚡ توليد الكود</button>
+        </div>
+        <div id="ownerGenOut" style="margin-top:10px;font-size:13.5px;font-weight:900;color:#0f4c5c;direction:ltr;"></div>
+      </div>
+    </div>
+
+    <div class="vip-footer-bar">
+      <span>💡 التحويل يتم عبر تطبيق <strong>Jawwal Pay</strong> إلى <strong>0599179811</strong> ويصلك كود التفعيل مباشرة على واتساب بدون إنترنت لاحقاً.</span>
+      <button type="button" class="vip-owner-link" id="btnToggleOwnerGen">🔑 مولّد الأكواد (للمالك)</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function initVipCanvaStore() {
+  const PLATFORM_KEY = 'ngo';
+  const JPAY_NUMBER = '0599179811';
+  const WA_NUMBER = '972599179811';
+  const OWNER_PIN = '2026';
+  const STORAGE_KEY = 'mostafa_vip_unlocked_' + PLATFORM_KEY;
+  const ORDER_KEY = 'mostafa_vip_order_' + PLATFORM_KEY;
+
+  const VIP_ITEMS = [
+    { id: 'ngo_letter', title: 'ترويسة رسمية فاخرة بختم مائي VIP', price: 5, icon: '📄', gradient: 'linear-gradient(135deg,#0f4c5c,#0f766e)', themeClass: 'vip-theme-royal', desc: 'قالب ترويسة رسمية للمؤسسات والجمعيات بتصميم تنفيذي راقٍ وجاهز للتصدير.' },
+    { id: 'ngo_id', title: 'بطاقة موظف ومتطوع تصميم كانفا', price: 8, icon: '🪪', gradient: 'linear-gradient(135deg,#1e293b,#0284c7)', themeClass: 'vip-theme-modern', desc: 'تصميم بطاقة تعريف ميدانية احترافية بمساحة باركود وشعار المؤسسة.' },
+    { id: 'ngo_card', title: 'كارت شخصي وجهين فاخر (Business Card)', price: 10, icon: '💳', gradient: 'linear-gradient(135deg,#0f172a,#b45309)', themeClass: 'vip-theme-gold', desc: 'بطاقة أعمال احترافية بدقة طباعة CMYK للمدراء ومنسقي المشاريع.' },
+    { id: 'ngo_rollup', title: 'تصميم رول أب وبوستر مبادرات VIP', price: 15, icon: '🖼️', gradient: 'linear-gradient(135deg,#4c1d95,#0f766e)', themeClass: 'vip-theme-royal', desc: 'قالب إعلاني فاخر لورش العمل والمؤتمرات والأنشطة الميدانية.' },
+    { id: 'ALL_VIP', title: 'باقة المؤسسة الشاملة VIP (كل الهوية)', price: 20, icon: '👑', gradient: 'linear-gradient(135deg,#0c3b46,#0f766e,#d97706)', themeClass: 'vip-theme-gold', desc: 'فتح جميع قوالب الترويسات والهوية البصرية والمطبوعات الفاخرة بكود واحد.' }
+  ];
+
+  function getUnlocked() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch (e) { return []; }
+  }
+  function saveUnlocked(arr) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(new Set(arr)))); } catch (e) {}
+  }
+  function getOrderRef() {
+    try {
+      let ref = localStorage.getItem(ORDER_KEY);
+      if (!ref) {
+        ref = 'ORD-' + Math.floor(1000 + Math.random() * 9000);
+        localStorage.setItem(ORDER_KEY, ref);
+      }
+      return ref;
+    } catch (e) { return 'ORD-2026'; }
+  }
+
+  // Deterministic activation code generator (verified 100% offline)
+  function computeVipCode(orderRef, itemId) {
+    const raw = (String(orderRef).trim().toUpperCase() + '|' + String(itemId).trim().toUpperCase() + '|MS-GAZA-VIP-2026');
+    let h1 = 5381, h2 = 2166136261;
+    for (let i = 0; i < raw.length; i++) {
+      const c = raw.charCodeAt(i);
+      h1 = ((h1 << 5) + h1 + c) >>> 0;
+      h2 = (Math.imul(h2 ^ c, 16777619)) >>> 0;
+    }
+    const p1 = (h1 % 1679616).toString(36).toUpperCase().padStart(4, '0');
+    const p2 = (h2 % 1679616).toString(36).toUpperCase().padStart(4, '0');
+    return 'VIP-' + p1 + '-' + p2;
+  }
+
+  let selectedItem = null;
+  const overlay = document.getElementById('vipStoreOverlay');
+  const grid = document.getElementById('vipCardsGrid');
+  const payBox = document.getElementById('vipPayBox');
+  const ownerBox = document.getElementById('vipOwnerBox');
+  const selOwnerItem = document.getElementById('selOwnerItem');
+
+  function applyVipVisual(item) {
+    document.body.classList.remove('vip-theme-gold', 'vip-theme-royal', 'vip-theme-modern');
+    if (item && item.themeClass) document.body.classList.add(item.themeClass);
+    const msg = document.getElementById('vipVerifyMsg');
+    if (msg) {
+      msg.style.color = '#059669';
+      msg.textContent = '✅ تم تفعيل وتطبيق التصميم الفاخر: ' + item.title;
+    }
+  }
+
+  function renderVipCards() {
+    if (!grid) return;
+    const unlocked = getUnlocked();
+    const hasAll = unlocked.includes('ALL_VIP');
+    grid.innerHTML = VIP_ITEMS.map(it => {
+      const isOpen = hasAll || unlocked.includes(it.id);
+      return '<div class="vip-card">' +
+        '<div class="vip-card-preview" style="background:' + it.gradient + ';">' +
+          '<span class="vip-price-tag">' + it.price + ' ₪</span>' +
+          '<span class="vip-status-tag ' + (isOpen ? 'unlocked' : '') + '">' + (isOpen ? '🔓 مفعّل لديك' : '👑 تصميم VIP') + '</span>' +
+          '<div style="font-size:26px;line-height:1;">' + it.icon + '</div>' +
+        '</div>' +
+        '<div class="vip-card-body">' +
+          '<h3 class="vip-card-title">' + it.title + '</h3>' +
+          '<p class="vip-card-desc">' + it.desc + '</p>' +
+          '<button type="button" class="vip-action-btn ' + (isOpen ? 'use' : 'buy') + '" data-vip-id="' + it.id + '">' +
+            (isOpen ? '✨ تطبيق التصميم الآن' : '🔒 فتح النموذج — ' + it.price + ' شيكل') +
+          '</button>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+
+    grid.querySelectorAll('[data-vip-id]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-vip-id');
+        const it = VIP_ITEMS.find(x => x.id === id);
+        if (!it) return;
+        const cur = getUnlocked();
+        if (cur.includes('ALL_VIP') || cur.includes(it.id)) {
+          applyVipVisual(it);
+          overlay.classList.remove('open');
+          return;
+        }
+        selectedItem = it;
+        const ref = getOrderRef();
+        document.getElementById('vipSelectedTitle').textContent = it.title;
+        document.getElementById('vipSelectedPrice').textContent = it.price + ' شيكل';
+        document.getElementById('vipOrderRef').textContent = ref;
+        const waText = encodeURIComponent(
+          'مرحباً أ. مصطفى، قمت بتحويل مبلغ ' + it.price + ' شيكل عبر جوال بي (0599179811) لتفعيل نموذج VIP:\n' +
+          '• المنصة: بوابة العمل المؤسسي\n' +
+          '• النموذج: ' + it.title + '\n' +
+          '• رقم الطلب: ' + ref + '\n' +
+          'أرجو إرسال كود التفعيل.'
+        );
+        document.getElementById('btnSendVipReceipt').href = 'https://wa.me/' + WA_NUMBER + '?text=' + waText;
+        document.getElementById('vipVerifyMsg').textContent = '';
+        document.getElementById('inpVipActCode').value = '';
+        payBox.style.display = 'block';
+        payBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    });
+  }
+
+  if (selOwnerItem) {
+    selOwnerItem.innerHTML = VIP_ITEMS.map(it => '<option value="' + it.id + '">' + it.title + ' (' + it.price + ' ₪)</option>').join('');
+  }
+
+  document.getElementById('btnOpenVipStore').addEventListener('click', () => {
+    renderVipCards();
+    overlay.classList.add('open');
+  });
+  document.getElementById('btnCloseVipStore').addEventListener('click', () => overlay.classList.remove('open'));
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('open'); });
+
+  document.getElementById('btnCopyJpayNum').addEventListener('click', () => {
+    if (navigator.clipboard) navigator.clipboard.writeText(JPAY_NUMBER).catch(() => {});
+    const btn = document.getElementById('btnCopyJpayNum');
+    btn.textContent = '✅ تم النسخ: ' + JPAY_NUMBER;
+    setTimeout(() => { btn.textContent = '📋 نسخ الرقم'; }, 2200);
+  });
+
+  document.getElementById('btnVerifyVipCode').addEventListener('click', () => {
+    if (!selectedItem) return;
+    const entered = (document.getElementById('inpVipActCode').value || '').trim().toUpperCase();
+    const ref = getOrderRef();
+    const expectedItem = computeVipCode(ref, selectedItem.id);
+    const expectedAll = computeVipCode(ref, 'ALL_VIP');
+    const msg = document.getElementById('vipVerifyMsg');
+
+    if (entered === expectedAll) {
+      saveUnlocked(getUnlocked().concat(['ALL_VIP']));
+      renderVipCards();
+      applyVipVisual(selectedItem);
+      msg.style.color = '#059669';
+      msg.textContent = '🎉 تم تفعيل الباقة الشاملة VIP بالكامل على جهازك!';
+    } else if (entered === expectedItem) {
+      saveUnlocked(getUnlocked().concat([selectedItem.id]));
+      renderVipCards();
+      applyVipVisual(selectedItem);
+      msg.style.color = '#059669';
+      msg.textContent = '🎉 تم تفعيل النموذج بنجاح! يمكنك استخدامه الآن بحرية.';
+    } else {
+      msg.style.color = '#dc2626';
+      msg.textContent = '❌ الكود غير صحيح لهذا الطلب (' + ref + '). تأكد من نسخه كما وصلك على واتساب.';
+    }
+  });
+
+  document.getElementById('btnToggleOwnerGen').addEventListener('click', () => {
+    ownerBox.style.display = ownerBox.style.display === 'none' ? 'block' : 'none';
+  });
+
+  document.getElementById('btnGenOwnerCode').addEventListener('click', () => {
+    const pin = (document.getElementById('inpOwnerPin').value || '').trim();
+    const out = document.getElementById('ownerGenOut');
+    if (pin !== OWNER_PIN) {
+      out.style.color = '#dc2626';
+      out.textContent = '❌ الرمز السري غير صحيح';
+      return;
+    }
+    const ref = (document.getElementById('inpOwnerOrderRef').value || '').trim().toUpperCase();
+    const itemId = selOwnerItem.value;
+    if (!ref) {
+      out.style.color = '#dc2626';
+      out.textContent = 'أدخل رقم طلب العميل أولاً (مثل ORD-4821)';
+      return;
+    }
+    const code = computeVipCode(ref, itemId);
+    out.style.color = '#0f4c5c';
+    out.textContent = 'كود التفعيل الجاهز للنسخ: ' + code;
+  });
+})();
+</script>
+
 </body>
 </html>

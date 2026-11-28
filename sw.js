@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mostafa-ats-cv-v20';
+const CACHE_NAME = 'mostafa-ats-cv-v21';
 const ASSETS = ['./', './index.html', './ngo.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', (event) => {
