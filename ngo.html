@@ -1039,8 +1039,13 @@
 
         <div class="flex flex-col gap-3">
           <div class="card flex flex-wrap items-center justify-between gap-2" style="padding:12px 16px;">
-            <span style="font-size:12.5px; font-weight:700; color:var(--slate-600);" data-i18n="livePreview">معاينة المستند المباشرة</span>
-            <div class="flex flex-wrap gap-2">
+            <span style="font-size:12.5px; font-weight:700; color:var(--slate-600);" data-i18n="livePreview">معاينة المستند والهوية البصرية</span>
+            <div class="flex flex-wrap items-center gap-2">
+              <div class="segmented" style="padding:2px;" aria-label="اتجاه المعاينة والطباعة">
+                <button type="button" id="btn-orient-portrait" class="seg-btn active" style="padding:5px 10px;font-size:12px;">📄 عمودي</button>
+                <button type="button" id="btn-orient-landscape" class="seg-btn" style="padding:5px 10px;font-size:12px;">🖼️ أفقي</button>
+              </div>
+              <button type="button" id="btn-fullscreen-preview" class="btn btn-soft btn-sm" title="معاينة كاملة للتصميم والصور">🔍 معاينة كاملة</button>
               <button type="button" id="btn-copy-doc" class="btn btn-soft btn-sm" data-i18n="copyText">نسخ النص</button>
               <button type="button" id="btn-download-word" class="btn btn-blue btn-sm" data-i18n="downloadWord">تحميل Word</button>
               <button type="button" id="btn-print-doc" class="btn btn-primary btn-sm" data-i18n="printPdf">طباعة / PDF</button>
@@ -3690,11 +3695,12 @@
   const ORDER_KEY = 'mostafa_vip_order_' + PLATFORM_KEY;
 
   const VIP_ITEMS = [
-    { id: 'ngo_letter', title: 'ترويسة رسمية فاخرة بختم مائي VIP', price: 5, icon: '📄', gradient: 'linear-gradient(135deg,#0f4c5c,#0f766e)', themeClass: 'vip-theme-royal', desc: 'قالب ترويسة رسمية للمؤسسات والجمعيات بتصميم تنفيذي راقٍ وجاهز للتصدير.' },
-    { id: 'ngo_id', title: 'بطاقة موظف ومتطوع تصميم كانفا', price: 8, icon: '🪪', gradient: 'linear-gradient(135deg,#1e293b,#0284c7)', themeClass: 'vip-theme-modern', desc: 'تصميم بطاقة تعريف ميدانية احترافية بمساحة باركود وشعار المؤسسة.' },
-    { id: 'ngo_card', title: 'كارت شخصي وجهين فاخر (Business Card)', price: 10, icon: '💳', gradient: 'linear-gradient(135deg,#0f172a,#b45309)', themeClass: 'vip-theme-gold', desc: 'بطاقة أعمال احترافية بدقة طباعة CMYK للمدراء ومنسقي المشاريع.' },
-    { id: 'ngo_rollup', title: 'تصميم رول أب وبوستر مبادرات VIP', price: 15, icon: '🖼️', gradient: 'linear-gradient(135deg,#4c1d95,#0f766e)', themeClass: 'vip-theme-royal', desc: 'قالب إعلاني فاخر لورش العمل والمؤتمرات والأنشطة الميدانية.' },
-    { id: 'ALL_VIP', title: 'باقة المؤسسة الشاملة VIP (كل الهوية)', price: 20, icon: '👑', gradient: 'linear-gradient(135deg,#0c3b46,#0f766e,#d97706)', themeClass: 'vip-theme-gold', desc: 'فتح جميع قوالب الترويسات والهوية البصرية والمطبوعات الفاخرة بكود واحد.' }
+    { id: 'ngo_un_letter', title: 'ترويسة رسمية عالمية (UN / ISO Letterhead)', price: 3, icon: '🌐', gradient: 'linear-gradient(135deg,#0f4c5c,#0284c7)', themeClass: 'vip-theme-royal', desc: 'ترويسة رسمية بمعايير الأمم المتحدة والمنظمات الدولية (UN/INGO Standard) جاهزة للطباعة والـ Word.' },
+    { id: 'ngo_sphere_id', title: 'بطاقة ميدانية عالمية (Sphere / INGO ID Card)', price: 5, icon: '🪪', gradient: 'linear-gradient(135deg,#0c3b46,#0f766e)', themeClass: 'vip-theme-modern', desc: 'تصميم بطاقة تعريف موظف ومتطوع عالمية تدعم الوضع العمودي والأفقي مع مساحة باركود وشعار.' },
+    { id: 'ngo_cmyk_card', title: 'كارت أعمال تنفيذي وجهين (Canva Pro CMYK)', price: 8, icon: '💳', gradient: 'linear-gradient(135deg,#0f172a,#b45309)', themeClass: 'vip-theme-gold', desc: 'بطاقة أعمال احترافية بمعايير الطباعة العالمية (300 DPI CMYK) للمدراء والمنسقين.' },
+    { id: 'ngo_donor_cover', title: 'غلاف مقترح وتقرير أثر للمانحين (UNDP / EU)', price: 12, icon: '📑', gradient: 'linear-gradient(135deg,#1e3a8a,#0f766e)', themeClass: 'vip-theme-royal', desc: 'غلاف تنفيذي فاخر لمقترحات المشاريع وتقارير الأثر السنوية الموجهة للجهات المانحة الدولية.' },
+    { id: 'ngo_summit_rollup', title: 'رول أب وبوستر مؤتمرات عالمي (Global Roll-Up)', price: 15, icon: '🖼️', gradient: 'linear-gradient(135deg,#4c1d95,#0f4c5c)', themeClass: 'vip-theme-modern', desc: 'تصميم إعلاني فاخر للمؤتمرات وورش العمل والحملات المجتمعية بدقة عالية.' },
+    { id: 'ALL_VIP', title: 'الباقة المؤسسية العالمية الشاملة VIP', price: 20, icon: '👑', gradient: 'linear-gradient(135deg,#0c3b46,#0f766e,#d97706)', themeClass: 'vip-theme-gold', desc: 'فتح جميع القوالب العالمية للترويسات والهوية البصرية والمطبوعات الفاخرة مدى الحياة.' }
   ];
 
   function getUnlocked() {
@@ -3866,6 +3872,168 @@
     out.style.color = '#0f4c5c';
     out.textContent = 'كود التفعيل الجاهز للنسخ: ' + code;
   });
+})();
+</script>
+
+
+<!-- ==================== PORTRAIT / LANDSCAPE & FULLSCREEN PREVIEW MODULE ==================== -->
+<style id="ngoOrientStyles">
+  #doc-preview-printable.orient-portrait {
+    max-width: 794px !important;
+    min-height: 540px;
+    margin-inline: auto;
+    transition: all 0.22s ease;
+  }
+  #doc-preview-printable.orient-landscape {
+    max-width: 100% !important;
+    width: 100% !important;
+    min-height: 430px;
+    aspect-ratio: 297 / 210;
+    margin-inline: auto;
+    transition: all 0.22s ease;
+  }
+  #doc-preview-printable.orient-landscape .lh-body,
+  #doc-preview-printable.orient-landscape .brand-grid-auto {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+    align-items: start;
+  }
+  #doc-preview-printable img {
+    max-width: 100%;
+    height: auto;
+    cursor: zoom-in;
+  }
+  body.vip-theme-gold #doc-preview-printable {
+    border: 4px double #b45309 !important;
+    box-shadow: 0 14px 36px rgba(180, 83, 9, 0.18) !important;
+    background: linear-gradient(180deg, #fffdf7 0%, #ffffff 100%) !important;
+  }
+  body.vip-theme-royal #doc-preview-printable {
+    border-top: 12px solid #0f4c5c !important;
+    border-bottom: 6px solid #f59e0b !important;
+    box-shadow: 0 14px 34px rgba(15, 76, 92, 0.16) !important;
+  }
+  body.vip-theme-modern #doc-preview-printable {
+    border-right: 14px solid #0f766e !important;
+    border-left: 2px solid #cbd5e1 !important;
+    box-shadow: 0 14px 32px rgba(15, 118, 110, 0.15) !important;
+  }
+  .ngo-fullprev-overlay {
+    position: fixed; inset: 0; z-index: 10060; background: rgba(15, 23, 42, 0.84);
+    backdrop-filter: blur(6px); display: none; flex-direction: column; padding: 14px; direction: rtl;
+  }
+  .ngo-fullprev-overlay.open { display: flex; }
+  .ngo-fullprev-bar {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px;
+    background: #0f4c5c; color: #fff; padding: 10px 16px; border-radius: 14px 14px 0 0;
+  }
+  .ngo-fullprev-stage {
+    flex: 1; overflow: auto; background: #e2e8f0; padding: 20px; border-radius: 0 0 14px 14px;
+    display: flex; align-items: flex-start; justify-content: center;
+  }
+  .ngo-fullprev-sheet {
+    background: #fff; border-radius: 10px; box-shadow: 0 20px 50px rgba(0,0,0,0.28);
+    padding: 24px; transition: width 0.2s ease;
+  }
+  .ngo-fullprev-sheet.portrait { width: min(794px, 100%); }
+  .ngo-fullprev-sheet.landscape { width: min(1123px, 100%); }
+</style>
+
+<div class="ngo-fullprev-overlay" id="ngoFullPrevOverlay" role="dialog" aria-modal="true" aria-label="معاينة كاملة للتصميم والهوية البصرية">
+  <div class="ngo-fullprev-bar">
+    <strong style="font-size:14.5px;">🔍 معاينة كاملة — الهوية البصرية والصور والمطبوعات</strong>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+      <button type="button" id="btnFullPortrait" class="btn btn-sm" style="background:#fff;color:#0f4c5c;font-weight:800;">📄 وضع عمودي</button>
+      <button type="button" id="btnFullLandscape" class="btn btn-sm" style="background:rgba(255,255,255,0.18);color:#fff;font-weight:800;">🖼️ وضع أفقي</button>
+      <button type="button" id="btnCloseFullPrev" class="btn btn-sm" style="background:#ef4444;color:#fff;font-weight:800;">✕ إغلاق</button>
+    </div>
+  </div>
+  <div class="ngo-fullprev-stage">
+    <div class="ngo-fullprev-sheet portrait" id="ngoFullPrevSheet"></div>
+  </div>
+</div>
+
+<script>
+(function initNgoOrientationAndPreview() {
+  const preview = document.getElementById('doc-preview-printable');
+  const btnP = document.getElementById('btn-orient-portrait');
+  const btnL = document.getElementById('btn-orient-landscape');
+  const btnFull = document.getElementById('btn-fullscreen-preview');
+  const fullOverlay = document.getElementById('ngoFullPrevOverlay');
+  const fullSheet = document.getElementById('ngoFullPrevSheet');
+  const btnFullP = document.getElementById('btnFullPortrait');
+  const btnFullL = document.getElementById('btnFullLandscape');
+  const btnFullClose = document.getElementById('btnCloseFullPrev');
+  const dimW = document.getElementById('doc-dim-w');
+  const dimH = document.getElementById('doc-dim-h');
+
+  let currentOrient = 'portrait';
+  let dynPrintStyle = document.getElementById('ngoDynPageOrientStyle');
+  if (!dynPrintStyle) {
+    dynPrintStyle = document.createElement('style');
+    dynPrintStyle.id = 'ngoDynPageOrientStyle';
+    document.head.appendChild(dynPrintStyle);
+  }
+
+  function setOrientation(mode) {
+    currentOrient = mode === 'landscape' ? 'landscape' : 'portrait';
+    if (preview) {
+      preview.classList.remove('orient-portrait', 'orient-landscape');
+      preview.classList.add('orient-' + currentOrient);
+    }
+    if (btnP && btnL) {
+      btnP.classList.toggle('active', currentOrient === 'portrait');
+      btnL.classList.toggle('active', currentOrient === 'landscape');
+    }
+    if (dimW && dimH) {
+      const w = parseFloat(dimW.value) || 210;
+      const h = parseFloat(dimH.value) || 297;
+      if (currentOrient === 'landscape' && w < h) { dimW.value = h; dimH.value = w; }
+      if (currentOrient === 'portrait' && w > h) { dimW.value = h; dimH.value = w; }
+    }
+    dynPrintStyle.textContent = '@media print { @page { size: ' + currentOrient + '; margin: 10mm; } }';
+    if (fullSheet) {
+      fullSheet.classList.remove('portrait', 'landscape');
+      fullSheet.classList.add(currentOrient);
+    }
+    if (btnFullP && btnFullL) {
+      btnFullP.style.background = currentOrient === 'portrait' ? '#fff' : 'rgba(255,255,255,0.18)';
+      btnFullP.style.color = currentOrient === 'portrait' ? '#0f4c5c' : '#fff';
+      btnFullL.style.background = currentOrient === 'landscape' ? '#fff' : 'rgba(255,255,255,0.18)';
+      btnFullL.style.color = currentOrient === 'landscape' ? '#0f4c5c' : '#fff';
+    }
+  }
+
+  function openFullscreenPreview(customImgSrc) {
+    if (!fullOverlay || !fullSheet) return;
+    if (customImgSrc) {
+      fullSheet.innerHTML = '<div style="text-align:center;"><img src="' + customImgSrc + '" style="max-width:100%;max-height:75vh;border-radius:10px;object-fit:contain;" /></div>';
+    } else if (preview) {
+      fullSheet.innerHTML = preview.innerHTML;
+    }
+    setOrientation(currentOrient);
+    fullOverlay.classList.add('open');
+  }
+
+  if (btnP) btnP.addEventListener('click', () => setOrientation('portrait'));
+  if (btnL) btnL.addEventListener('click', () => setOrientation('landscape'));
+  if (btnFull) btnFull.addEventListener('click', () => openFullscreenPreview(null));
+  if (btnFullP) btnFullP.addEventListener('click', () => setOrientation('portrait'));
+  if (btnFullL) btnFullL.addEventListener('click', () => setOrientation('landscape'));
+  if (btnFullClose) btnFullClose.addEventListener('click', () => fullOverlay.classList.remove('open'));
+  if (fullOverlay) fullOverlay.addEventListener('click', (e) => { if (e.target === fullOverlay) fullOverlay.classList.remove('open'); });
+
+  // Allow clicking any image inside preview to open fullscreen zoom in Portrait/Landscape
+  if (preview) {
+    preview.addEventListener('click', (e) => {
+      if (e.target && e.target.tagName === 'IMG' && e.target.src) {
+        openFullscreenPreview(e.target.src);
+      }
+    });
+  }
+
+  setOrientation('portrait');
 })();
 </script>
 
