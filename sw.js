@@ -1,5 +1,5 @@
-const CACHE_NAME = 'mostafa-ats-cv-v18';
-const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png'];
+const CACHE_NAME = 'mostafa-ats-cv-v19';
+const ASSETS = ['./', './index.html', './ngo.html', './manifest.json', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -26,6 +26,6 @@ self.addEventListener('fetch', (event) => {
         caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
         return resp;
       })
-      .catch(() => caches.match(event.request).then((cached) => cached || caches.match('./index.html')))
+      .catch(() => caches.match(event.request).then((cached) => cached || caches.match('./index.html', './ngo.html')))
   );
 });
